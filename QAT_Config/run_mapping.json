@@ -1,0 +1,8 @@
+{
+  "_comment": "Maps DB TestRunName (from TestRunTable) to QAT config XML file. Keys are matched after stripping trailing '_Rerun' suffix.",
+  "CI-Smoke-RC":       "QAT_Config/ci_smoke_rc.xml",
+  "CI_Smoke_Develop":  "QAT_Config/ci_smoke_develop.xml",
+  "CI_24hrs_RC":       "QAT_Config/ci_24hrs_rc.xml",
+  "CI_24hrs_Develop":  "QAT_Config/ci_24hrs_develop.xml",
+  "CI_IAV_Smoke":      "QAT_Config/ci_iav_smoke_rc.xml"
+}

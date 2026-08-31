@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QatConfigFile>
+  <TestRunMetadata TestRunName="CI_Smoke_Develop" TestRunID="2" Description="Smoke test-develop" TestRunTag="CI" QATVersion="5.6" />
+  <Group Name="CI-smoke-testsuite-develop" Key="0" IsChecked="" IsExpanded="True" GroupType="Test Plans" UniqueIdentifier="G_3a8d6317">
+    <TestPlan Name="CI_vCore_Firmware_Upgrade" Key="279" IsChecked="" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_279_0">
+      <TestCase Name="CI_vCore_Firmware_Upgrade_Status_Check" Key="4382" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="279" UniqueIdentifier="C_4382_1" />
+      <TestCase Name="CI_vCore_Firmware_Upgrade_RC" Key="4380" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="279" UniqueIdentifier="C_4380_2" />
+      <TestCase Name="CI_vCore_Firmware_Upgrade_Develop" Key="4381" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="279" UniqueIdentifier="C_4381_3" />
+      <TestCase Name="CI_vCore_Firmware_Upgrade_Status_Check" Key="4382" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="279" UniqueIdentifier="C_4382_4" />
+    </TestPlan>
+    <TestPlan Name="VAQ_Smoke - CI test" Key="4" IsChecked="" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_4_5">
+      <TestCase Name="VQA_Status check all devices before upgrade" Key="68" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_68_6" />
+      <TestCase Name="VAQ_Upgrade by launch" Key="77" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_77_7" />
+      <TestCase Name="Upgrade by Launch_RC" Key="93" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_93_8" />
+      <TestCase Name="VAQ_Measure peripheral upgrade time" Key="69" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_69_9" />
+      <TestCase Name="VAQ_Status check all devices after upgrade" Key="76" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_76_10" />
+      <TestCase Name="VAQ_Environment Setup - Set QR code camera exposure" Key="67" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_67_11" />
+      <TestCase Name="VAQ_Environment Setup - Recall QR code camera capture position" Key="78" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_78_12" />
+      <TestCase Name="VAQ_Graphics 1 verification in _Decoder HDMI 1 output-CI test" Key="52" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_52_13" />
+      <TestCase Name="VAQ_Graphics 2 verification in_Decoder HDMI 1 output -CI test" Key="53" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_53_14" />
+      <TestCase Name="VAQ_Graphics 3 verification in_Decoder HDMI 1 output - CI test" Key="54" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_54_15" />
+      <TestCase Name="CI_DEV_SMK_PLAY-AV1" Key="4400" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_4400_16" />
+      <TestCase Name="VAQ_Environment Setup - Recall QR code camera capture position 2" Key="92" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_92_17" />
+      <TestCase Name="VAQ_AV 1 verification in_Decoder HDMI 1 output with 4k30 source -CI test" Key="55" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_55_18" />
+      <TestCase Name="CI_DEV_SMK_STOP-AV1" Key="4401" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_4401_19" />
+      <TestCase Name="CI_DEV_SMK_PLAY-AV2" Key="4402" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_4402_20" />
+      <TestCase Name="VAQ_AV 2 verification in_Decoder HDMI 1 output with 4k60 source -CI test" Key="56" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_56_21" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 3840x2160p30-CI test" Key="57" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_57_22" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 1920x1080p60-CI test" Key="58" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_58_23" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 1920x1080p50-CI test" Key="59" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_59_24" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 1920x1080p30-CI test" Key="60" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_60_25" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 2560x1600p60CVT-CI test" Key="61" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_61_26" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 1440x900p60 RB-CI test" Key="62" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_62_27" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 1280x1024p60-CI test" Key="63" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_63_28" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 1024x768p60-CI test" Key="64" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_64_29" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 800x600p60-CI test" Key="65" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_65_30" />
+      <TestCase Name="VAQ_AV 2 Output Scaling in_Decoder HDMI 1 output with 640x480p60-CI test" Key="66" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_66_31" />
+      <TestCase Name="CI_DEV_SMK_STOP-AV2" Key="4403" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_4403_32" />
+      <TestCase Name="CI_SMK_DEV_NV-Mediacast_Test" Key="95" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_95_33" />
+      <TestCase Name="VAQ_Sanity_QLAN_Tx-Mute Enable" Key="70" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_70_34" />
+      <TestCase Name="VAQ_Sanity_QLAN_Tx-PrimaryLED_OK" Key="71" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_71_35" />
+      <TestCase Name="VAQ_WAN Tx_import" Key="75" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_75_36" />
+      <TestCase Name="VAQ_AES67 TX Enable_Disable" Key="72" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_72_37" />
+      <TestCase Name="VAQ_SoftDante Multicast Mode" Key="73" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_73_38" />
+      <TestCase Name="VAQ_System Link Transmitter" Key="74" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_74_39" />
+      <TestCase Name="VAQ_Amplifier Pre-test Configuration" Key="79" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_79_40" />
+      <TestCase Name="VAQ_Amplifier Standby Enable" Key="80" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_80_41" />
+      <TestCase Name="VAQ_Amplifier Standby Disable" Key="81" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_81_42" />
+      <TestCase Name="VAQ_Amplifier Channel A audio" Key="82" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_82_43" />
+      <TestCase Name="VAQ_Amplifier Channel B audio" Key="83" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_83_44" />
+      <TestCase Name="VAQ_Amplifier Mute All pre-check" Key="84" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_84_45" />
+      <TestCase Name="VAQ_Amplifier Mute All enable" Key="85" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_85_46" />
+      <TestCase Name="VAQ_Amplifier Mute All disable" Key="86" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_86_47" />
+      <TestCase Name="VAQ_Amplifier GPIO" Key="87" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_87_48" />
+      <TestCase Name="VAQ_qio_gp8x8" Key="89" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_89_49" />
+      <TestCase Name="VAQ_qio_s4" Key="90" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_90_50" />
+      <TestCase Name="VAQ_qio_ir1x4" Key="91" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_91_51" />
+      <TestCase Name="VAQ_qio_l4o_ml4i" Key="88" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_88_52" />
+      <TestCase Name="VAQ_Amplifier Standby Enable" Key="80" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_80_53" />
+      <TestCase Name="CI_SMK_DEV_Audio-Bridge_Speakerphone-Soundcard_test" Key="96" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_96_54" />
+      <TestCase Name="CI_SMK_DEV_Video-Bridge_test" Key="97" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_97_55" />
+      <TestCase Name="VAQ-BackgroundMonitoring_TC" Key="94" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_94_56" />
+      <TestCase Name="CI_SMK_DEV_Core-Crash_Checker" Key="98" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="4" UniqueIdentifier="C_98_57" />
+    </TestPlan>
+    <TestPlan Name="CI_NV_SMOKE_TESTPLAN_import" Key="64" IsChecked="" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_64_58">
+      <TestCase Name="CI_NV_Status check before or after upgrade_import" Key="713" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_713_59" />
+      <TestCase Name="CI_NV_Firmware upgrade_import" Key="714" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_714_60" />
+      <TestCase Name="CI_DEV_NV_Firmware upgrade_import" Key="742" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_742_61" />
+      <TestCase Name="CI_NV_Status check before or after upgrade_import" Key="713" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_713_62" />
+      <TestCase Name="CI_NV_SMOKE_QRCM-API_Verify_import" Key="735" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_735_63" />
+      <TestCase Name="CI_DEV_NV_SMK_PLAY-AV1" Key="4408" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_4408_64" />
+      <TestCase Name="CI_DEV_NV_SMK_PLAY-AV2" Key="4409" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_4409_65" />
+      <TestCase Name="CI_NV_verify_AV_source_import" Key="715" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_715_66" />
+      <TestCase Name="CI_NV_change_TV_input2_import" Key="733" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_733_67" />
+      <TestCase Name="CI_NV_set_camera_position_Graphic_import" Key="719" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_719_68" />
+      <TestCase Name="CI_DEV_NV_set_camera_position_Graphic_import" Key="743" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_743_69" />
+      <TestCase Name="CI_NV_Graphic1_NV21_decoder_test_import" Key="716" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_716_70" />
+      <TestCase Name="CI_NV_Graphic2_NV21_decoder_test_import" Key="717" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_717_71" />
+      <TestCase Name="CI_NV_Graphic3_NV21_decoder_test_import" Key="718" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_718_72" />
+      <TestCase Name="CI_NV_set_camera_position_AV_source_import" Key="720" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_720_73" />
+      <TestCase Name="CI_DEV_NV_set_camera_position_AV_source_import" Key="744" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_744_74" />
+      <TestCase Name="CI_NV_AV1_3840x2160p60_import" Key="721" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_721_75" />
+      <TestCase Name="CI_NV_AV1_1920x1080p30_import" Key="722" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_722_76" />
+      <TestCase Name="CI_NV_AV1_640x480p60_import" Key="723" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_723_77" />
+      <TestCase Name="CI_NV_AV2_3840x2160p60_import" Key="724" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_724_78" />
+      <TestCase Name="CI_NV_AV2_1920x1080p30_import" Key="726" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_726_79" />
+      <TestCase Name="CI_NV_AV2_640x480p60_import" Key="725" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_725_80" />
+      <TestCase Name="CI_NV_change_TV_input3_import" Key="734" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_734_81" />
+      <TestCase Name="CI_NV_set_camera_position_Graphic_import" Key="719" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_719_82" />
+      <TestCase Name="CI_DEV_NV_set_camera_position_Graphic_import" Key="743" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_743_83" />
+      <TestCase Name="CI_NV_Graphic1_NV32_decoder_test_import" Key="738" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_738_84" />
+      <TestCase Name="CI_NV_Graphic2_NV32_decoder_test_import" Key="739" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_739_85" />
+      <TestCase Name="CI_NV_Graphic3_NV32_decoder_test_import" Key="740" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_740_86" />
+      <TestCase Name="CI_NV_set_camera_position_AV_source_import" Key="720" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_720_87" />
+      <TestCase Name="CI_DEV_NV_set_camera_position_AV_source_import" Key="744" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_744_88" />
+      <TestCase Name="CI_NV_NV32_AV1_3840x2160p60_import" Key="727" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_727_89" />
+      <TestCase Name="CI_NV_NV32_AV1_1920x1080p30_import" Key="728" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_728_90" />
+      <TestCase Name="CI_NV_NV32_AV1_640x480p60_import" Key="729" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_729_91" />
+      <TestCase Name="CI_NV_NV32_AV2_3840x2160p60_import" Key="730" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_730_92" />
+      <TestCase Name="CI_NV_NV32_AV2_1920x1080p30_import" Key="731" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_731_93" />
+      <TestCase Name="CI_NV_NV32_AV2_640x480p60_import" Key="732" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_732_94" />
+      <TestCase Name="CI_NV_Audio-Bridge_TEST_import" Key="736" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_736_95" />
+      <TestCase Name="CI_NV_Video-Bridge_TEST_import" Key="737" IsChecked="False" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_737_96" />
+      <TestCase Name="CI_DEV_NV_SMK_STOP-AV1" Key="4411" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_4411_97" />
+      <TestCase Name="CI_DEV_NV_SMK_STOP-AV2" Key="4410" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_4410_98" />
+      <TestCase Name="CI_NV_change_TV_input1_import" Key="741" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_741_99" />
+      <TestCase Name="CI_NVSMK_DEV_Core-Crash_Checker" Key="745" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="64" UniqueIdentifier="C_745_100" />
+    </TestPlan>
+  </Group>
+  <Group Name="CI-smoke-testsuite-develop-ServerCores" Key="0" IsChecked="True" IsExpanded="True" GroupType="Test Plans" UniqueIdentifier="G_9da9f715">
+    <TestPlan Name="CI_Smoke_Prod-Core-24f_loopback_testplan" Key="71" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_71_101">
+      <TestCase Name="CI_Smoke_Prod-Core-24f_loopback_Core-status-check" Key="795" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="71" UniqueIdentifier="C_795_102" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_loopback_firmware-upgrade" Key="796" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="71" UniqueIdentifier="C_796_103" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_loopback_Core-status-check" Key="795" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="71" UniqueIdentifier="C_795_104" />
+    </TestPlan>
+    <TestPlan Name="CI_Smoke_Prod-Core-24f_main_testplan" Key="72" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_72_105">
+      <TestCase Name="CI_Smoke_Prod-Core-24f_Core-status_check" Key="797" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_797_106" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_firmware-upgrade" Key="799" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_799_107" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_Core-status_check" Key="797" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_797_108" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_peripheral-status_check" Key="798" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_798_109" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_AES_stream-check" Key="800" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_800_110" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_MS_stream-check" Key="801" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_801_111" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_QLAN_stream-check" Key="802" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_802_112" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_Softdante_stream-check" Key="803" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_803_113" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_WAN_stream-check" Key="804" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_804_114" />
+      <TestCase Name="CI_Smoke_Prod-Core-24f_SL_stream-check" Key="805" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_805_115" />
+      <TestCase Name="CI_PRODSMK_DEV_24f_Core-Crash_Checker" Key="806" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="72" UniqueIdentifier="C_806_116" />
+    </TestPlan>
+    <TestPlan Name="CI_Smoke_Prod-ServerCoreX10_loopback_testplan" Key="73" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_73_117">
+      <TestCase Name="CI_Smoke_Prod-ServerCoreX10_loopback_Core-status_check" Key="807" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="73" UniqueIdentifier="C_807_118" />
+      <TestCase Name="CI_Smoke_Prod-ServerCoreX10_loopback_firmware-upgrade" Key="808" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="73" UniqueIdentifier="C_808_119" />
+      <TestCase Name="CI_Smoke_Prod-ServerCoreX10_loopback_Core-status_check" Key="807" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="73" UniqueIdentifier="C_807_120" />
+    </TestPlan>
+    <TestPlan Name="CI_Smoke_Prod-ServerCoreX10_main_testplan" Key="75" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_75_121">
+      <TestCase Name="CI_Smoke_Prod-CoreX10_Core-status_check" Key="811" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_811_122" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_firmware-upgrade" Key="813" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_813_123" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_Core-status_check" Key="811" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_811_124" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_peripheral-status_check" Key="812" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_812_125" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_AES_stream-check" Key="814" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_814_126" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_MS_stream-check" Key="815" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_815_127" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_QLAN_stream-check" Key="816" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_816_128" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_Softdante_stream-check" Key="817" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_817_129" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_WAN_stream-check" Key="818" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_818_130" />
+      <TestCase Name="CI_Smoke_Prod-CoreX10_SL_stream-check" Key="819" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_819_131" />
+      <TestCase Name="CI_PRODSMK_DEV_X10_Core-Crash_Checker" Key="820" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="75" UniqueIdentifier="C_820_132" />
+    </TestPlan>
+    <TestPlan Name="CI_Smoke_Prod-ServerCoreX20r_loopback_testplan" Key="74" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_74_133">
+      <TestCase Name="CI_Smoke_Prod-ServerCoreX20r_loopback_Core-status_check" Key="809" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="74" UniqueIdentifier="C_809_134" />
+      <TestCase Name="CI_Smoke_Prod-ServerCoreX20r_loopback_firmware-upgrade" Key="810" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="74" UniqueIdentifier="C_810_135" />
+      <TestCase Name="CI_Smoke_Prod-ServerCoreX20r_loopback_Core-status_check" Key="809" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="74" UniqueIdentifier="C_809_136" />
+    </TestPlan>
+    <TestPlan Name="CI_Smoke_Prod-ServerCoreX20r_main_testplan" Key="76" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_76_137">
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_Core-status_check" Key="821" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_821_138" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_firmware-upgrade" Key="823" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_823_139" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_Core-status_check" Key="821" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_821_140" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_peripheral-status_check" Key="822" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_822_141" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_AES_stream-check" Key="824" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_824_142" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_MS_stream-check" Key="825" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_825_143" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_QLAN_stream-check" Key="826" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_826_144" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_Softdante_stream-check" Key="827" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_827_145" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_WAN_stream-check" Key="828" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_828_146" />
+      <TestCase Name="CI_Smoke_Prod-CoreX20r_SL_stream-check" Key="829" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_829_147" />
+      <TestCase Name="CI_PRODSMK_DEV_X20r_Core-Crash_Checker" Key="830" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="76" UniqueIdentifier="C_830_148" />
+    </TestPlan>
+    <TestPlan Name="CI_Smoke_Prod-ServerCoreX50r_main_testplan" Key="277" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_277_149">
+      <TestCase Name="CI_Smoke_Prod-CoreX50r_Core-status_check_before_firmware_upgrade" Key="4208" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="277" UniqueIdentifier="C_4208_150" />
+      <TestCase Name="CI_Smoke_Prod-CoreX50r_firmware_upgrade" Key="4210" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="277" UniqueIdentifier="C_4210_151" />
+      <TestCase Name="CI_Smoke_Prod-CoreX50r_Core-status_check_after_firmware_upgrade" Key="4209" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="277" UniqueIdentifier="C_4209_152" />
+      <TestCase Name="CI_PROD_SMK_DEV_X50r_Core-Crash_Checker" Key="4412" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="277" UniqueIdentifier="C_4412_153" />
+    </TestPlan>
+  </Group>
+  <DutItem DeviceNameInDesign="vCore-CI" DeviceModel="vCore Test" SelectedDevice="vcore-ci-develop" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Virtual" ConnectionType="HardlinkDevice" />
+  <DutItem DeviceNameInDesign="ci-core-smoke" DeviceModel="Core 110f" SelectedDevice="ci-core-smoke" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="qio-l4o-24bb-ci" DeviceModel="QIO-L4o" SelectedDevice="ci-qio-l4o-f4ce" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="qio-gp8x8-17cb-ci" DeviceModel="QIO-GP8x8" SelectedDevice="ci-qio-gp8x8-b827" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="qio-s4-10ea-ci" DeviceModel="QIO-S4" SelectedDevice="cio-qio-s4-fb27" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="qio-ir1x4-17c3-ci" DeviceModel="QIO-IR1x4" SelectedDevice="Not Applicable" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="qio-ml4i-bb3d-ci" DeviceModel="QIO-ML4i" SelectedDevice="ci-qio-ml4i-dc7f" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="qio-ml2x2-d3bc-ci" DeviceModel="QIO-ML2x2" SelectedDevice="ci-qio-ml2x2-83ca" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="Amplifier-1" DeviceModel="SPA-Qf 60x2" SelectedDevice="ci-spaq-ae62" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="NC-110-4001-CI" DeviceModel="NC-110" SelectedDevice="nc-110-e5ac" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="NC-12x80-07c9-CI" DeviceModel="NC-12x80" SelectedDevice="ci-nc-12x80-33e2" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="NC-20x60-2a1d-VALab" DeviceModel="NC-20x60" SelectedDevice="ci-nc-20x60-077e" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="nv-32-h-a5a5" DeviceModel="NV-32-H" SelectedDevice="ci-nv-32-h-58b4" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="nv-32-h-eb75" DeviceModel="NV-32-H" SelectedDevice="ci-nv-32-h-5872" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-dev-nv-smoke-core-d900" DeviceModel="NV-32-H (Core Mode)" SelectedDevice="ci-dev-nv-smoke-core-d900" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="NC-20x60-1" DeviceModel="NC-20x60" SelectedDevice="ci-dev-nvsmk-nc-20x60-66fc" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-rc-nv-1-smoke-encoder" DeviceModel="NV-1-H-WE" SelectedDevice="ci-dev-nv-1-smoke-encoder" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-rc-nv-smoke-decoder" DeviceModel="NV-32-H" SelectedDevice="ci-dev-nvsmk-nv32h-d187" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-rc-nv-smoke-encoder" DeviceModel="NV-32-H" SelectedDevice="ci-dev-nvsmk-nv32h-d365" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-rc-smoke-nv-21-decoder" DeviceModel="NV-21-HU" SelectedDevice="ci-dev-nvsmoke-nv-21-decoder" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-rc-smoke-nv-21-encoder" DeviceModel="NV-21-HU" SelectedDevice="ci-dev-nvsmoke-nv-21-encoder" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-24f-Core-4282" DeviceModel="Core 24f" SelectedDevice="ci-24f-core-4282" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-24f-Core-40ea" DeviceModel="Core 24f" SelectedDevice="ci-24f-core-40ea" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-dev-nl-p4-69dc" DeviceModel="NL-P4" SelectedDevice="ci-dev-nl-p4-69dc" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-24f-nm-t1-48f6" DeviceModel="NM-T1" SelectedDevice="ci-24f-nm-t1-48f6" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-24f-TSCG3-ec3d" DeviceModel="TSC-50-G3" SelectedDevice="ci-24f-tscg3-ec3d" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X10-Core-be12" DeviceModel="Server Core X10" SelectedDevice="ci-x10-core-be12" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X10-Core-bea6" DeviceModel="Server Core X10" SelectedDevice="ci-x10-core-bea6" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X10-nl-c4-6f57" DeviceModel="NL-C4" SelectedDevice="ci-x10-nl-c4-6f57" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-CoreX10-TSCG3-70dd" DeviceModel="TSC-70-G3" SelectedDevice="ci-corex10-tscg3-70dd" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X10-IOUSB-def6" DeviceModel="I/O-USB-Bridge" SelectedDevice="ci-x10-iousb-def6" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X20r-Core-c668" DeviceModel="Server Core X20r" SelectedDevice="ci-x20r-core-c668" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X20r-Core-c47c" DeviceModel="Server Core X20r" SelectedDevice="ci-x20r-core-c47c" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X20r-nl-sb42-7461" DeviceModel="NL-SB42" SelectedDevice="ci-x20r-nl-sb42-7461" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-CoreX20r-TSCG3-e578" DeviceModel="TSC-101-G3" SelectedDevice="ci-corex20r-tscg3-e578" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-X20r-IOUSB-e0d4" DeviceModel="I/O-USB-Bridge" SelectedDevice="ci-x20r-iousb-e0d4" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-x50r-core-bf34" DeviceModel="Server Core X50r" SelectedDevice="ci-x50r-core-bf34" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <ExecutionLoop GroupUniqueIdentifier="G_3a8d6317" GroupName="CI-smoke-testsuite-develop" TypeOfLoop="No Loop" NumberOfLoops="" DurationValue="" DurationType="Hour" DeployDesign="Deploy Design" ErrorHandling="None" RerunIteration="" RerunDelay="" RerunDelayType="Min" />
+  <ExecutionLoop GroupUniqueIdentifier="G_9da9f715" GroupName="CI-smoke-testsuite-develop-ServerCores" TypeOfLoop="No Loop" NumberOfLoops="" DurationValue="" DurationType="Hour" DeployDesign="Deploy Design" ErrorHandling="None" RerunIteration="" RerunDelay="" RerunDelayType="Min" />
+  <Emaildetails Emailoption="AfterTestCaseFails" IsChecked="False" Failcount="0" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test_Develop" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke Test_Develop" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="ApplicationCrashes" IsChecked="False" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test_Develop" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke Test_Develop" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="AutomationPauses" IsChecked="False" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test_Develop" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke Test_Develop" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="AfterExecutionCompletion" IsChecked="True" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test_Develop" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke Test_Develop" AddReportLink="True" EmailGrafanaLinkText="" />
+  <RuntimeSettings device_username="QATadmin" device_password="devicelock@1234" telnet_username="root" telnet_password="decline" designer_version="C:\Program Files\QSC\Q-SYS Designer develop\Q-Sys Designer.exe" bypass_time="0" bypass_check_value="False" skip_firmware_devices="QIO-L4o,QIO-ML4i,QIO-ML2x2,QIO-IR1x4,QIO-S4,QIO-GP8x8,NL-SB42,NL-P4,NL-C4,SPA-Qf 60x2,NM-T1" feature_toggle="/MDX_Enabled:true /MDC_Enabled:true /dev" enable_virtual_test="False" feature_toggle_checkbox="True" fastmode="False" control_verification_delay="0" firmware_autoupgrade="False" />
+  <SelectedServer ServerName="BANGALORE_Production2.0" />
+</QatConfigFile>

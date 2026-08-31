@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QatConfigFile>
+  <TestRunMetadata TestRunName="CI_24hrs_Develop" TestRunID="21" Description="CI-24hrs-develop" TestRunTag="CI" QATVersion="5.0" />
+  <Group Name="CI_24hrs_testsuite_develop_Main" Key="0" IsChecked="True" IsExpanded="True" GroupType="Test Plans" UniqueIdentifier="G_4c48ff6b">
+    <TestPlan Name="CI_24hrs_Develop_NV21_Support_plan" Key="46" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_46_0">
+      <TestCase Name="CI_24hrs_Develop_NV21_Support_status check all devices" Key="382" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="46" UniqueIdentifier="C_382_1" />
+      <TestCase Name="CI_24hrs_Develop_NV21_FirmwareUpgrade" Key="383" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="46" UniqueIdentifier="C_383_2" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Support_status check all devices" Key="382" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="46" UniqueIdentifier="C_382_3" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Support_SetStreams" Key="380" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="46" UniqueIdentifier="C_380_4" />
+    </TestPlan>
+    <TestPlan Name="CI_24hrs_Develop_NV21_PrimaryPlan" Key="47" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_47_5">
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_status check" Key="402" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_402_6" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_FirmwareUpgrade" Key="386" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_386_7" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_status check" Key="402" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_402_8" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Measure Peripheral upgrade time NV21" Key="405" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_405_9" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Setstreams" Key="388" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_388_10" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_All CPU_monitoring" Key="404" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_404_11" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_memory monitoring" Key="403" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_403_12" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_SetCore_Details" Key="394" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_394_13" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Set_Peripheral_Details" Key="400" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_400_14" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Connect_SSH_AllDevices" Key="396" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_396_15" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Send_SSH_AllDevices" Key="397" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_397_16" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Set_and_Start_CollectionProcess" Key="398" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_398_17" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_BGM" Key="401" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="47" UniqueIdentifier="C_401_18" />
+    </TestPlan>
+    <TestPlan Name="CI_24hrs_Develop_NV32_Support_plan" Key="44" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_44_19">
+      <TestCase Name="CI_24hrs_Develop_NV32_Support_Status Core" Key="357" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="44" UniqueIdentifier="C_357_20" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Support_FirmwareUpgrade" Key="356" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="44" UniqueIdentifier="C_356_21" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Support_Status Core" Key="357" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="44" UniqueIdentifier="C_357_22" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Support_SetStreams" Key="358" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="44" UniqueIdentifier="C_358_23" />
+    </TestPlan>
+    <TestPlan Name="CI_24hrs_Develop_NV32_Primary_Plan" Key="45" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_45_24">
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_status check" Key="377" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_377_25" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_FirmwareUpgrade" Key="360" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_360_26" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_status check" Key="377" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_377_27" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_CI 24Hrs Measure Peripheral Upgrade Time" Key="367" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_367_28" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_SetStreams" Key="379" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_379_29" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_All CPU_monitoring" Key="361" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_361_30" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_memory monitoring" Key="378" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_378_31" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_SetCore_Details" Key="369" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_369_32" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_Set_Peripheral_Details" Key="375" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_375_33" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_Connect_SSH_AllDevices" Key="371" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_371_34" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_Send_SSH_AllDevices" Key="372" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_372_35" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_Set_and_Start_CollectionProcess" Key="373" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_373_36" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_BGM" Key="376" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="45" UniqueIdentifier="C_376_37" />
+    </TestPlan>
+  </Group>
+  <Group Name="CI_24hrs_testsuite_develop_Verification" Key="0" IsChecked="True" IsExpanded="True" GroupType="Test Plans" UniqueIdentifier="G_37f0afb6">
+    <TestPlan Name="CI_24hrs_Develop_NV21_Primary_Datacollection_Plan" Key="49" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_49_38">
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_memory_monitoring" Key="413" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="49" UniqueIdentifier="C_413_39" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Wait_and_Stop_CollectionProcess1" Key="4010" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="49" UniqueIdentifier="C_4010_40" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Import_to_Database1" Key="4011" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="49" UniqueIdentifier="C_4011_41" />
+      <TestCase Name="CI_24hrs_Develop_NV21_Primary_Core-Crash_Checker" Key="415" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="49" UniqueIdentifier="C_415_42" />
+    </TestPlan>
+    <TestPlan Name="CI_24hrs_Develop_NV32_Primary_Datacollection_Plan" Key="48" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_48_43">
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_All_CPU_monitoring" Key="406" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="48" UniqueIdentifier="C_406_44" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_memory_monitoring" Key="409" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="48" UniqueIdentifier="C_409_45" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_Wait_and_Stop_CollectionProcess" Key="408" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="48" UniqueIdentifier="C_408_46" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_Import_to_Database" Key="407" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="48" UniqueIdentifier="C_407_47" />
+      <TestCase Name="CI_24hrs_Develop_NV32_Primary_Core-Crash_Checker" Key="410" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="48" UniqueIdentifier="C_410_48" />
+    </TestPlan>
+  </Group>
+  <DutItem DeviceNameInDesign="CI-24-Core-ae8c" DeviceModel="Core 110f" SelectedDevice="ci-24-core-ae8c" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-24dev-nv-21-1b6d-encoder" DeviceModel="NV-21-HU" SelectedDevice="ci-24dev-nv-21-1b6d-encoder" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-24dev-nv-21-1c46-decoder" DeviceModel="NV-21-HU" SelectedDevice="ci-24dev-nv-21-1c46-decoder" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-24-Core-72b0" DeviceModel="Core 110f" SelectedDevice="ci-24-core-72b0" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-24dev-Core-981c-backup-NV21" DeviceModel="Core 110f" SelectedDevice="ci-24dev-core-981c-backup-nv21" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-24Dev-Core-db1c-211" DeviceModel="Core 110f" SelectedDevice="ci-24dev-core-db1c-211" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-24dev-nv-32-c6c0-encoder" DeviceModel="NV-32-H" SelectedDevice="ci-24dev-nv-32-c6c0-encoder" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="ci-24dev-nv-32-c6c8-decoder" DeviceModel="NV-32-H" SelectedDevice="ci-24dev-nv-32-c6c8-decoder" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-24Dev-Core-dd75-212" DeviceModel="Core 110f" SelectedDevice="ci-24dev-core-dd75-212" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-24dev-Core-c125-backup-NV32H" DeviceModel="Core 110f" SelectedDevice="ci-24dev-core-c125-backup-nv32h" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <Emaildetails Emailoption="AfterTestCaseFails" IsChecked="False" Failcount="0" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI-24Hrs Test on develop using core 110f" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI-24Hrs Test on develop using core 110f" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="ApplicationCrashes" IsChecked="False" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI-24Hrs Test on develop using core 110f" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI-24Hrs Test on develop using core 110f" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="AutomationPauses" IsChecked="False" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI-24Hrs Test on develop using core 110f" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI-24Hrs Test on develop using core 110f" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="AfterExecutionCompletion" IsChecked="True" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI-24Hrs Test on develop using core 110f" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI-24Hrs Test on develop using core 110f" AddReportLink="True" EmailGrafanaLinkText="" />
+  <RuntimeSettings device_username="QATadmin" device_password="devicelock" telnet_username="root" telnet_password="decline" designer_version="C:\Program Files\QSC\Q-SYS Designer develop\Q-Sys Designer.exe" bypass_time="0" bypass_check_value="False" reflect_username="" reflect_password="" skip_firmware_devices="QIO-L4o,QIO-ML4i,QIO-ML2x2,QIO-IR1x4,QIO-S4,QIO-GP8x8,NL-P4,NL-C4,NV-21-HU" feature_toggle="" enable_virtual_test="False" feature_toggle_checkbox="False" fastmode="False" control_verification_delay="0" firmware_autoupgrade="False" />
+  <SelectedServer ServerName="BANGALORE_Production2.0" />
+</QatConfigFile>

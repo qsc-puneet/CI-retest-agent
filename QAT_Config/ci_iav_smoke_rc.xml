@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QatConfigFile>
+  <TestRunMetadata TestRunName="CI_IAV_Smoke" TestRunID="0" Description="" TestRunTag="" QATVersion="5.1" />
+  <Group Name="CI_IAV_Smoke_Testsuite" Key="0" IsChecked="True" IsExpanded="True" GroupType="Test Plans" UniqueIdentifier="G_8d5f71f6">
+    <TestPlan Name="CI_IAV_SMK_testplan" Key="109" IsChecked="True" IsExpanded="True" GroupType="" ParentKey="0" UniqueIdentifier="P_109_0">
+      <TestCase Name="CI_IAV_SMK_Core-status_check" Key="1553" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1553_1" />
+      <TestCase Name="CI_IAV_SMK_Peripheral-status_check" Key="1554" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1554_2" />
+      <TestCase Name="CI_IAV_SMK_delete_VSA-Patch" Key="3994" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_3994_3" />
+      <TestCase Name="CI_IAV_SMK_VSA_Statuscheck_Post_deleting-Patch" Key="3995" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_3995_4" />
+      <TestCase Name="CI_IAV_SMK_firmware-upgrade" Key="1555" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1555_5" />
+      <TestCase Name="CI_IAV_SMK_Core-status_check" Key="1553" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1553_6" />
+      <TestCase Name="CI_IAV_SMK_installing_Patch" Key="3996" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_3996_7" />
+      <TestCase Name="CI_IAV_SMK_Peripheral-status_check" Key="1554" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1554_8" />
+      <TestCase Name="CI_IAV_SMK_Install_dependencies" Key="4230" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4230_9" />
+      <TestCase Name="CI_IAV_SMK_Switch-Config1" Key="4097" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4097_10" />
+      <TestCase Name="CI_IAV_SMK_CAM_set-position" Key="1561" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1561_11" />
+      <TestCase Name="CI_IAV_SMK_Play_Entry-Video" Key="4093" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4093_12" />
+      <TestCase Name="CI_IAV_SMK_CAM_Tracking_Entry_test" Key="4094" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4094_13" />
+      <TestCase Name="CI_IAV_SMK_CAM_movement_test" Key="1557" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1557_14" />
+      <TestCase Name="CI_IAV_SMK_Stop_Video" Key="1560" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1560_15" />
+      <TestCase Name="CI_IAV_SMK_Play_Lecture-video" Key="4095" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4095_16" />
+      <TestCase Name="CI_IAV_SMK_CAM_Tracking_lecture_test" Key="4096" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4096_17" />
+      <TestCase Name="CI_IAV_SMK_CAM_movement_test" Key="1557" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1557_18" />
+      <TestCase Name="CI_IAV_SMK_Stop_Video" Key="1560" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1560_19" />
+      <TestCase Name="CI_IAV_SMK_Switch-Config2" Key="4098" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4098_20" />
+      <TestCase Name="CI_IAV_SMK_Play_Walk-video" Key="1559" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1559_21" />
+      <TestCase Name="CI_IAV_SMK_CAM_Tracking_walk_test" Key="1558" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1558_22" />
+      <TestCase Name="CI_IAV_SMK_CAM_movement_test" Key="1557" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1557_23" />
+      <TestCase Name="CI_IAV_SMK_Stop_Video" Key="1560" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1560_24" />
+      <TestCase Name="CI_IAV_SMK_Start_Microphone" Key="4212" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4212_25" />
+      <TestCase Name="CI_IAV_SMK_Switch-Config3" Key="4211" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4211_26" />
+      <TestCase Name="CI_IAV_SMK_Disable_talker-1" Key="4213" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4213_27" />
+      <TestCase Name="CI_IAV_SMK_Set_talker-1_coordinates" Key="4214" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4214_28" />
+      <TestCase Name="CI_IAV_SMK_Enable_talker-1" Key="4215" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4215_29" />
+      <TestCase Name="CI_IAV_SMK_Test_Speaker-Spotlight_Talker-1" Key="4216" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4216_30" />
+      <TestCase Name="CI_IAV_SMK_Disable_talker-1" Key="4213" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4213_31" />
+      <TestCase Name="CI_IAV_SMK_Set_talker-2_coordinates" Key="4217" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4217_32" />
+      <TestCase Name="CI_IAV_SMK_Enable_talker-2" Key="4218" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4218_33" />
+      <TestCase Name="CI_IAV_SMK_Test_Speaker-Spotlight_Talker-2" Key="4219" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4219_34" />
+      <TestCase Name="CI_IAV_SMK_Disable_talker-2" Key="4220" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4220_35" />
+      <TestCase Name="CI_IAV_SMK_Set_talker-3_coordinates" Key="4221" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4221_36" />
+      <TestCase Name="CI_IAV_SMK_Enable_talker-3" Key="4222" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4222_37" />
+      <TestCase Name="CI_IAV_SMK_Test_Speaker-Spotlight_Talker-3" Key="4223" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4223_38" />
+      <TestCase Name="CI_IAV_SMK_Disable_talker-3" Key="4224" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4224_39" />
+      <TestCase Name="CI_IAV_SMK_Play_Lecture-video" Key="4095" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4095_40" />
+      <TestCase Name="CI_IAV_SMK_Set_talker-4_coordinates" Key="4225" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4225_41" />
+      <TestCase Name="CI_IAV_SMK_Enable_talker-4" Key="4226" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4226_42" />
+      <TestCase Name="CI_IAV_SMK_Test_Speaker-Spotlight_Talker-4" Key="4227" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4227_43" />
+      <TestCase Name="CI_IAV_SMK_Disable_talker-4" Key="4228" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4228_44" />
+      <TestCase Name="CI_IAV_SMK_Stop_Video" Key="1560" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1560_45" />
+      <TestCase Name="CI_IAV_SMK_Stop-Microphone" Key="4231" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4231_46" />
+      <TestCase Name="CI_IAV_SMK_Check_active_camera" Key="4232" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4232_47" />
+      <TestCase Name="CI_IAV_SMK_Multicamera_Switch_test" Key="4233" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_4233_48" />
+      <TestCase Name="CI_IAV_SMK_RC_Core-Crash_Checker" Key="1556" IsChecked="True" IsExpanded="False" GroupType="" ParentKey="109" UniqueIdentifier="C_1556_49" />
+    </TestPlan>
+  </Group>
+  <DutItem DeviceNameInDesign="CI-VSA-Core-510i" DeviceModel="Core 510i" SelectedDevice="ci-vsa-core-510i" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-VSA-NC-110-9802" DeviceModel="NC-110" SelectedDevice="ci-vsa-nc-110-9802" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-VSA-NC-20x60-66e8" DeviceModel="NC-20x60" SelectedDevice="ci-vsa-nc-20x60-66e8" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-VSA-TSCG3" DeviceModel="TSC-70-G3" SelectedDevice="ci-vsa-tscg3" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <DutItem DeviceNameInDesign="CI-vsa100-b688" DeviceModel="VSA-100" SelectedDevice="ci-vsa100-b688" RestoreDesign="False" ClearLogs="False" BypassStatusCheck="False" NetworkType="Physical" ConnectionType="LocalDevice" />
+  <ExecutionLoop GroupUniqueIdentifier="G_8d5f71f6" GroupName="CI_IAV_Smoke_Testsuite" TypeOfLoop="No Loop" NumberOfLoops="" DurationValue="" DurationType="Hour" DeployDesign="Deploy Design" ErrorHandling="None" RerunIteration="" RerunDelay="" RerunDelayType="Min" />
+  <Emaildetails Emailoption="AfterTestCaseFails" IsChecked="False" Failcount="0" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test IAV _RC" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke IAV Test_RC" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="ApplicationCrashes" IsChecked="False" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test IAV _RC" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke IAV Test_RC" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="AutomationPauses" IsChecked="False" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test IAV _RC" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke IAV Test_RC" AddReportLink="True" EmailGrafanaLinkText="" />
+  <Emaildetails Emailoption="AfterExecutionCompletion" IsChecked="True" Mailid="puneet.vernekar@qsc.com ; Abhijith.BM@qsc.com" EmailSubject="CI Smoke Test IAV _RC" EmailExtLinkCheck="True" EmailExtLinkText="[Smoke Test Details](https://qsc.atlassian.net/wiki/spaces/QSYS/pages/1820819457/CI+Automation+QAT+Test+Plan+details+Boulder+Database)" EmailDescriptionCheck="True" EmailDescriptionText="CI Smoke IAV Test_RC" AddReportLink="True" EmailGrafanaLinkText="" />
+  <RuntimeSettings device_username="QATadmin" device_password="devicelock" telnet_username="root" telnet_password="decline" designer_version="C:\Program Files\QSC\Q-SYS Designer RC-10.4\Q-Sys Designer.exe" bypass_time="0" bypass_check_value="False" skip_firmware_devices="QIO-L4o,QIO-ML4i,QIO-ML2x2,QIO-IR1x4,QIO-S4,QIO-GP8x8,NL-SB42,NL-P4,NL-C4,SPA-Qf 60x2,NM-T1" feature_toggle="/MDX_Enabled:true /MDC_Enabled:true /dev" enable_virtual_test="False" feature_toggle_checkbox="True" fastmode="False" control_verification_delay="0" firmware_autoupgrade="False" />
+  <SelectedServer ServerName="BANGALORE_Production2.0" />
+</QatConfigFile>

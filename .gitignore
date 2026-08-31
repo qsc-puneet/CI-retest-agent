@@ -1,0 +1,26 @@
+# --- Environment / secrets ---
+.env
+venv/
+*.pyc
+__pycache__/
+.vscode/
+
+# --- Level B: v1 retest implementation (kept locally, excluded from source control) ---
+qsys_analyzer/retest_orchestrator.py
+qsys_analyzer/config_mutator.py
+run_retest_planner.py
+
+# --- Level B: device checker (unrelated tool) ---
+qsys_analyzer/device_checker.py
+run_device_checker.py
+
+# --- Level B: scratch / manual dump tools ---
+test_db_fetch.py
+DB_fetch.txt
+
+# --- Generated artefacts ---
+*_retest.xml
+*_retest.json
+db_fetch_output*.json
+decision-hub.log
+decision_hub_output.json
