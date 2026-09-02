@@ -34,22 +34,56 @@ ANALYSIS_SCHEMA = """\
 
 SUMMARY_SCHEMA = """\
 {
+  "run_metadata": {
+    "exec_id": "...",
+    "test_run_name": "...",
+    "builds_under_test": ["...", "..."],
+    "start_time": "...",
+    "end_time": "...",
+    "duration": "e.g. 3h 14m"
+  },
+  "totals": {
+    "total_test_cases": <int>,
+    "total_passed": <int>,
+    "total_failed": <int>,
+    "pass_rate": "e.g. 99.4%"
+  },
   "overall_status": "pass | unstable | fail",
-  "executive_summary": "2-3 sentence summary of the execution",
-  "key_findings": ["...", "..."],
-  "failure_groups": [
+  "verdict_reasoning": "one sentence explaining the status choice using totals.",
+  "executive_summary": "2-3 sentence summary a lead engineer would read first.",
+  "failed_test_cases": [
     {
-      "group_name": "...",
-      "root_cause": "...",
+      "test_case_name": "<TestCaseName exactly as it appears in case_summary>",
+      "test_plan_name": "<parent TestPlanName>",
+      "hardware": "<from plan_summary>",
+      "case_execution_id": <int>,
+      "failed_actions": [
+        {
+          "action_execution_id": <int>,
+          "tab_name": "...",
+          "action_name": "<ActionName exactly as recorded>",
+          "time": "HH:MM:SS UTC or full timestamp",
+          "actual": "<raw ActualValues>",
+          "expected": "<raw ExpectedValues>",
+          "remarks": "<raw Remarks — never paraphrase>"
+        }
+      ],
+      "interpretation": "One short paragraph in plain English: what the failure means for the product, what the checker was actually testing, and why the observed actual/expected/remarks combination indicates that.",
+      "root_cause_hypotheses": [
+        {"hypothesis": "...", "likelihood": "high | medium | low", "evidence": "concrete data point supporting or refuting the hypothesis"}
+      ],
+      "corroborating_signals": [
+        "Cross-check against other test cases in case_summary — e.g. sibling checker <TestCaseName> passed on the same build, so the failure is device-specific.",
+        "Or: same script pattern failed in another plan too — infra bug."
+      ],
       "severity": "critical | high | medium | low",
-      "affected_tests": ["..."],
-      "recommendation": "..."
+      "affected_component": "specific device / subsystem / script — not a generic 'core control team' label"
     }
   ],
   "recommended_actions": [
-    {"action": "...", "priority": "immediate | next_build | backlog", "owner": "..."}
+    {"action": "concrete next step (log to inspect, code path to check, retest command)", "priority": "immediate | next_build | backlog", "owner": "specific team / role"}
   ],
-  "affected_components": ["...", "..."],
+  "retest_guidance": "Which test cases to retest and which to skip, with one-line reason.",
   "confidence": 0.0-1.0
 }"""
 
@@ -113,7 +147,7 @@ class FailureClassifierAgent(BaseAgent):
     def analyze(self, context):
         prompt = (
             "Here is the test execution data with failures:\n\n"
-            f"```json\n{json.dumps(context, indent=2)}\n```\n\n"
+            f"```json\n{json.dumps(context, indent=2, default=str)}\n```\n\n"
             f"Classify each failure. Output JSON:\n{ANALYSIS_SCHEMA}"
         )
         raw = self._call_llm([
@@ -147,7 +181,7 @@ class PatternAnalystAgent(BaseAgent):
     def analyze(self, context):
         prompt = (
             "Here is the execution data with pre-computed correlations:\n\n"
-            f"```json\n{json.dumps(context, indent=2)}\n```\n\n"
+            f"```json\n{json.dumps(context, indent=2, default=str)}\n```\n\n"
             "Identify failure patterns and root causes.\n"
             f"Output JSON:\n{ANALYSIS_SCHEMA}"
         )
@@ -184,7 +218,7 @@ class ImpactAssessorAgent(BaseAgent):
     def analyze(self, context):
         prompt = (
             "Here is the execution data:\n\n"
-            f"```json\n{json.dumps(context, indent=2)}\n```\n\n"
+            f"```json\n{json.dumps(context, indent=2, default=str)}\n```\n\n"
             "Assess severity and release impact for each failure.\n"
             f"Output JSON:\n{ANALYSIS_SCHEMA}"
         )
@@ -216,10 +250,10 @@ class CriticAgent(BaseAgent):
     """)
 
     def critique(self, context, agent_analyses):
-        analyses_text = json.dumps(agent_analyses, indent=2)
+        analyses_text = json.dumps(agent_analyses, indent=2, default=str)
         prompt = (
             "## Execution Data\n"
-            f"```json\n{json.dumps(context, indent=2)}\n```\n\n"
+            f"```json\n{json.dumps(context, indent=2, default=str)}\n```\n\n"
             "## Agent Analyses to Review\n"
             f"```json\n{analyses_text}\n```\n\n"
             "Review these analyses. Correct any errors.\n"
@@ -239,24 +273,74 @@ class SummaryDirectorAgent(BaseAgent):
     role = "director"
     system_prompt = textwrap.dedent("""\
         You are a senior test engineer producing the final execution
-        summary report for a Qsys audio DSP verification run.
+        report for a Qsys audio/DSP verification run. Match the depth
+        and precision a lead engineer would expect: cite specific
+        ActionExecutionIDs, TestCaseNames, actual/expected values and
+        remarks verbatim.
 
-        Synthesize all agent analyses into a clear, actionable report.
-        Group related failures by root cause. Provide specific
-        recommendations. Be concise and data-driven.
+        Deterministic rules — apply, do not override:
 
-        Respond ONLY with the JSON object.
+        1. `overall_status` is derived from `totals` and the severities
+           you assign:
+             - "fail"     if any failed test case has severity "critical"
+             - "unstable" if there is at least one failure but none critical
+             - "pass"     only when totals.total_failed == 0
+           Set `verdict_reasoning` to explicitly reference the numbers,
+           e.g. "173/174 passed; one critical sentinel failed on Core 110f".
+
+        2. Names must be exact:
+             - `test_case_name` MUST match a `name` in `case_summary`.
+             - Never put an ActionName (e.g. "External Script Action")
+               where a TestCaseName is expected.
+             - `affected_component` should be a specific device,
+               inventory item, or script — not a generic team label.
+
+        3. For every failing test case (see `failed_case_names`), emit
+           exactly one entry in `failed_test_cases` and include ALL of
+           its failed actions in `failed_actions`, copying the raw
+           `actual`, `expected` and `remarks` verbatim (do not paraphrase).
+
+        4. `interpretation` must explain what the checker was actually
+           verifying and why the observed data means it failed. If the
+           action is an "External Script Action" whose remarks mention
+           a specific token (e.g. "0 is not found in the script
+           response"), explain what that token normally represents
+           (e.g. "0 crashes found") and what its absence implies.
+
+        5. `root_cause_hypotheses` — provide 1 to 3. For each, include
+           `likelihood` and concrete `evidence`. Use the retry pattern
+           (same action failed twice in a row with identical remarks)
+           as evidence against transient network causes.
+
+        6. `corroborating_signals` — cross-reference against
+           `case_summary`. Example: if a sibling checker with a similar
+           name (e.g. NV-side vs Core-side crash checker) PASSED on the
+           same build, note that the failure is device-specific.
+           If every similar checker failed, note that the failure is
+           systemic.
+
+        7. `recommended_actions` — each action must be concrete
+           (a specific log to inspect, script path to check, or retest
+           command). No filler like "investigate further".
+
+        8. Confidence:
+             - Cap at 0.7 when total_failures < 5.
+             - Cap at 0.5 when total_failures < 3 and you had to rely
+               on a single hypothesis.
+
+        Respond ONLY with the JSON object matching the schema exactly.
+        Never invent fields. Do not include commentary outside JSON.
     """)
 
     def synthesize(self, context, all_analyses):
-        analyses_text = json.dumps(all_analyses, indent=2)
+        analyses_text = json.dumps(all_analyses, indent=2, default=str)
         prompt = (
             "## Execution Data\n"
-            f"```json\n{json.dumps(context, indent=2)}\n```\n\n"
+            f"```json\n{json.dumps(context, indent=2, default=str)}\n```\n\n"
             "## All Agent Analyses (post-critique revision)\n"
             f"```json\n{analyses_text}\n```\n\n"
             "Produce the final execution summary report.\n"
-            f"Output JSON:\n{SUMMARY_SCHEMA}"
+            f"Output JSON matching this schema exactly:\n{SUMMARY_SCHEMA}"
         )
         raw = self._call_llm([
             {"role": "system", "content": self.system_prompt},

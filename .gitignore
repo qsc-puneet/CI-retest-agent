@@ -24,3 +24,8 @@ DB_fetch.txt
 db_fetch_output*.json
 decision-hub.log
 decision_hub_output.json
+
+# --- Analyzer outputs ---
+qsys_analysis_output.json
+qsys_analysis_output.md
+debug_ctx_*.json

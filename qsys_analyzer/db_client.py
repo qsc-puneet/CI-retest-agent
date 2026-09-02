@@ -157,10 +157,13 @@ def fetch_full_execution(exec_id, failed_only=False):
     test_plans = fetch_test_plans(pg_ids)
     tp_ids = [tp["PlanExecutionID"] for tp in test_plans]
 
-    # Level 3
-    status_filter = "Fail" if failed_only else None
-    test_cases = fetch_test_cases(tp_ids, status_filter=status_filter)
-    tc_ids = [tc["CaseExecutionID"] for tc in test_cases]
+    # Level 3 — always fetch all test cases so cross-referencing passing vs failing is possible.
+    test_cases = fetch_test_cases(tp_ids)
+    if failed_only:
+        drill_cases = [tc for tc in test_cases if (tc.get("Status") or "").strip().lower() == "fail"]
+    else:
+        drill_cases = test_cases
+    tc_ids = [tc["CaseExecutionID"] for tc in drill_cases]
 
     # Level 4
     tabs = fetch_tabs(tc_ids)

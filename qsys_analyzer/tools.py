@@ -145,12 +145,18 @@ def group_actions_by_test_sequence(actions, tabs):
     return sequences
 
 
-def extract_failures(actions):
+def extract_failures(actions, tabs=None, test_cases=None, test_plans=None):
     """
     Extract only failed actions/verifications with parsed values.
 
-    Returns list of dicts with computed deviation info.
+    Enriches each failure with the parent tab_name, test_case_name and
+    test_plan_name (when the lookups are supplied) so downstream agents
+    have the anchors they need to reason about the failure.
     """
+    tab_lookup = {t.get("TabExecutionID"): t for t in (tabs or [])}
+    case_lookup = {t.get("CaseExecutionID"): t for t in (test_cases or [])}
+    plan_lookup = {t.get("PlanExecutionID"): t for t in (test_plans or [])}
+
     failures = []
     for action in actions:
         if action.get("Status") != "Fail":
@@ -159,11 +165,28 @@ def extract_failures(actions):
         expected = parse_expected_value(action.get("ExpectedValues", ""))
         actual = parse_actual_value(action.get("ActualValues", ""))
 
+        tab = tab_lookup.get(action.get("TabExecutionID")) or {}
+        case = case_lookup.get(tab.get("CaseExecutionID")) or {}
+        plan = plan_lookup.get(case.get("PlanExecutionID")) or {}
+
         failure = {
             "action_execution_id": action.get("ActionExecutionID"),
             "tab_execution_id": action.get("TabExecutionID"),
+            "tab_name": tab.get("TabName"),
+            "case_execution_id": case.get("CaseExecutionID"),
+            "test_case_name": case.get("TestCaseName"),
+            "test_plan_name": plan.get("TestPlanName"),
+            "hardware": plan.get("Hardware"),
+            "feature": plan.get("Feature"),
+            "build": plan.get("Build") or case.get("Build"),
+            "design": plan.get("DesignName"),
+            "inventory": plan.get("Inventory"),
+            "start_time": str(action.get("StartTime")) if action.get("StartTime") else None,
+            "end_time": str(action.get("EndTime")) if action.get("EndTime") else None,
             "action_name": action.get("ActionName", ""),
             "status": "Fail",
+            "raw_expected": action.get("ExpectedValues", ""),
+            "raw_actual": action.get("ActualValues", ""),
             "expected": expected,
             "actual": actual,
             "remarks": action.get("Remarks", ""),
@@ -289,8 +312,9 @@ def build_analysis_context(execution_data):
     tabs = execution_data.get("tabs", [])
     test_cases = execution_data.get("test_cases", [])
     test_plans = execution_data.get("test_plans", [])
+    plan_groups = execution_data.get("plan_groups", [])
 
-    failures = extract_failures(actions)
+    failures = extract_failures(actions, tabs=tabs, test_cases=test_cases, test_plans=test_plans)
     sequences = group_actions_by_test_sequence(actions, tabs)
     correlations = correlate_failures(failures)
 
@@ -301,6 +325,8 @@ def build_analysis_context(execution_data):
             "name": tc.get("TestCaseName"),
             "status": tc.get("Status"),
             "case_execution_id": tc.get("CaseExecutionID"),
+            "plan_execution_id": tc.get("PlanExecutionID"),
+            "build": tc.get("Build"),
         })
 
     # Build plan summary
@@ -315,12 +341,79 @@ def build_analysis_context(execution_data):
             "design": tp.get("DesignName"),
             "hardware": tp.get("Hardware"),
             "feature": tp.get("Feature"),
+            "build": tp.get("Build"),
+            "inventory": tp.get("Inventory"),
         })
+
+    plan_group_summary = []
+    for pg in plan_groups:
+        plan_group_summary.append({
+            "name": pg.get("TestPlanGroupName"),
+            "status": pg.get("Status"),
+            "total_test_plans": pg.get("TotalTestPlansCount"),
+            "passed": pg.get("TotalPassedTestPlans"),
+            "failed": pg.get("TotalFailedTestPlans"),
+            "start_time": str(pg.get("StartTime")) if pg.get("StartTime") else None,
+            "end_time": str(pg.get("EndTime")) if pg.get("EndTime") else None,
+        })
+
+    total_cases_defined = sum((tp.get("TotalTestCasesCount") or 0) for tp in test_plans)
+    total_passed = sum((tp.get("TotalPassedTestCase") or 0) for tp in test_plans)
+    total_failed = sum((tp.get("TotalFailedTestCase") or 0) for tp in test_plans)
+    total_incomplete = sum((tp.get("TotalIncompleteTestCase") or 0) for tp in test_plans)
+    # Executed = the cases that actually ran (pass/fail/incomplete). The
+    # DB's TotalTestCasesCount often includes non-selected cases from the
+    # test-plan definition, so use the executed count for pass-rate math.
+    total_executed = total_passed + total_failed + total_incomplete
+    if total_executed == 0:
+        total_executed = len(test_cases)
+    pass_rate = round(total_passed / max(total_executed, 1) * 100, 1)
+
+    starts = [pg.get("StartTime") for pg in plan_groups if pg.get("StartTime")]
+    ends = [pg.get("EndTime") for pg in plan_groups if pg.get("EndTime")]
+    run_start = min(starts) if starts else None
+    run_end = max(ends) if ends else None
+    duration_seconds = None
+    if run_start and run_end:
+        try:
+            duration_seconds = int((run_end - run_start).total_seconds())
+        except Exception:
+            duration_seconds = None
+
+    builds = sorted({(tp.get("Build") or "").strip() for tp in test_plans if tp.get("Build")})
+
+    run_metadata = {
+        "exec_id": execution_data.get("exec_id"),
+        "test_run_name": (plan_groups[0].get("TestPlanGroupName") if plan_groups else None),
+        "plan_group_names": [pg.get("TestPlanGroupName") for pg in plan_groups],
+        "builds_under_test": builds,
+        "start_time": str(run_start) if run_start else None,
+        "end_time": str(run_end) if run_end else None,
+        "duration_seconds": duration_seconds,
+    }
+
+    totals = {
+        "total_test_cases": total_executed,
+        "total_test_cases_defined": total_cases_defined,
+        "total_passed": total_passed,
+        "total_failed": total_failed,
+        "total_incomplete": total_incomplete,
+        "pass_rate": pass_rate,
+    }
+
+    failed_case_names = sorted({
+        tc.get("TestCaseName") for tc in test_cases
+        if (tc.get("Status") or "").strip().lower() == "fail" and tc.get("TestCaseName")
+    })
 
     return {
         "exec_id": execution_data.get("exec_id"),
+        "run_metadata": run_metadata,
+        "totals": totals,
+        "plan_group_summary": plan_group_summary,
         "plan_summary": plan_summary,
         "case_summary": case_summary,
+        "failed_case_names": failed_case_names,
         "test_sequences": sequences,
         "failures": failures,
         "correlations": correlations,

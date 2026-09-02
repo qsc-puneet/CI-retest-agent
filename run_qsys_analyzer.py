@@ -42,14 +42,25 @@ def main():
     base_url = os.environ.get("OPENAI_BASE_URL") or None
     api_key = os.environ.get("OPENAI_API_KEY")
     output_path = os.environ.get("OUTPUT_JSON_PATH", "qsys_analysis_output.json")
+    report_path = os.environ.get("OUTPUT_REPORT_PATH") or (
+        os.path.splitext(output_path)[0] + ".md"
+    )
+    # PIPELINE_MODE: 'fast' (default) skips the critic/revise pass; 'full' runs it.
+    pipeline_mode = os.environ.get("PIPELINE_MODE", "fast").lower()
+    # Per-request timeout in seconds; slow 7B models on remote hosts can stall.
+    try:
+        llm_timeout = float(os.environ.get("LLM_TIMEOUT", "600"))
+    except ValueError:
+        llm_timeout = 600.0
 
     # Create LLM client
     from openai import OpenAI
-    client = OpenAI(api_key=api_key, base_url=base_url)
+    client = OpenAI(api_key=api_key, base_url=base_url, timeout=llm_timeout)
 
     # Run analysis
     from qsys_analyzer.orchestrator import QsysAnalyzer
-    analyzer = QsysAnalyzer(client=client, model=model)
+    from qsys_analyzer.report import render_markdown_report
+    analyzer = QsysAnalyzer(client=client, model=model, enable_revise=(pipeline_mode == "full"))
     summary = analyzer.run(exec_id, failed_only=failed_only)
 
     # Print summary
@@ -82,6 +93,14 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
     print(f"\n  Full report written to: {output_path}")
+
+    try:
+        report_md = render_markdown_report(summary, exec_id=exec_id)
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write(report_md)
+        print(f"  Markdown report written to: {report_path}")
+    except Exception as exc:
+        print(f"  WARN: could not render Markdown report: {exc}")
 
 
 if __name__ == "__main__":
