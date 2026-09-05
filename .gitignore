@@ -26,6 +26,7 @@ decision-hub.log
 decision_hub_output.json
 
 # --- Analyzer outputs ---
-qsys_analysis_output.json
-qsys_analysis_output.md
+qsys_analysis_output*.json
+qsys_analysis_output*.md
 debug_ctx_*.json
+fetch_by_build.py

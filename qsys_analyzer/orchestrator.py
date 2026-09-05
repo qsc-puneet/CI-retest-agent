@@ -6,6 +6,8 @@ Phase 2 — Critic reviews (2a) + agents revise (2b)
 Phase 3 — Summary Director synthesizes final report
 """
 
+import re
+
 from .agents import (
     PHASE1_AGENTS, CriticAgent, SummaryDirectorAgent,
 )
@@ -16,7 +18,7 @@ from .tools import build_analysis_context
 class QsysAnalyzer:
     """Orchestrates the multi-agent Qsys failure analysis pipeline."""
 
-    def __init__(self, client, model="qwen3:8b", enable_revise=False):
+    def __init__(self, client, model, enable_revise=False):
         self.client = client
         self.model = model
         # When False (default), skip Phase 2a/2b and go Phase 1 -> Director.
@@ -132,9 +134,27 @@ class QsysAnalyzer:
                     break
 
             if true_case_id is None:
-                # Nothing to map; keep as-is but skip factual override
-                rebuilt.setdefault(id(llm_case), llm_case)
-                continue
+                # LLM referenced actions that don't exist in the DB. Try to
+                # salvage its narrative into a real failure whose
+                # test_case_name matches (or shares a distinctive suffix)
+                # with what the LLM emitted. Otherwise drop the case — it's
+                # a hallucination and the "add missing cases" pass below
+                # will materialise the real one from ground truth.
+                llm_name = (llm_case.get("test_case_name") or "").strip()
+                if llm_name:
+                    for real_cid, real_failures in f_by_case.items():
+                        real_name = (real_failures[0].get("test_case_name") or "").strip()
+                        if not real_name:
+                            continue
+                        if (
+                            real_name == llm_name
+                            or real_name.endswith("_" + llm_name)
+                            or llm_name.endswith("_" + real_name)
+                        ):
+                            true_case_id = real_cid
+                            break
+                if true_case_id is None:
+                    continue
 
             anchor = (f_by_case.get(true_case_id) or [{}])[0]
             entry = rebuilt.get(true_case_id)
@@ -208,6 +228,11 @@ class QsysAnalyzer:
 
         summary["failed_test_cases"] = list(rebuilt.values())
 
+        # Backfill narrative from curated `_domain_context` for any entry
+        # the LLM left thin. Keeps output non-empty when the LLM
+        # hallucinated fake cases and starved the real one.
+        self._backfill_from_domain_context(summary["failed_test_cases"], f_by_case, context)
+
         # Derive overall_status deterministically
         totals = summary.get("totals") or {}
         total_failed = totals.get("total_failed", 0) or 0
@@ -258,14 +283,156 @@ class QsysAnalyzer:
                     if any(name and name in s for name in known_names)
                 ]
 
+        # Sanitize recommended_actions owners — reject generic "…control team"
+        # style labels the LLM invents and re-tie the owner to real hardware.
+        self._sanitize_recommended_actions(summary, context)
+
+        # Rebuild retest_guidance deterministically so it references only
+        # real failing cases + real hardware (LLM tends to name the wrong
+        # device variant here).
+        self._rewrite_retest_guidance(summary, context)
+
         return summary
+
+    @staticmethod
+    def _sanitize_recommended_actions(summary, context):
+        """Rewrite bogus owner labels (`Core control team` etc.) into
+        factual owners derived from the failing case's Hardware field."""
+        actions = summary.get("recommended_actions") or []
+        if not actions:
+            return
+        failed_cases = summary.get("failed_test_cases") or []
+        hardwares = sorted({
+            (c.get("affected_component") or "").strip()
+            for c in failed_cases
+            if (c.get("affected_component") or "").strip()
+        })
+        fallback_hw = hardwares[0] if hardwares else None
+        bad_re = re.compile(r"\bcontrol team\b|\bteam\b", re.IGNORECASE)
+        for a in actions:
+            owner = (a.get("owner") or "").strip()
+            if owner and bad_re.search(owner):
+                if fallback_hw:
+                    a["owner"] = f"{fallback_hw} firmware/design owner"
+                else:
+                    a["owner"] = "firmware/design owner"
+
+    @staticmethod
+    def _rewrite_retest_guidance(summary, context):
+        """Compose retest_guidance from the real failing cases + hardware.
+
+        The LLM often names unrelated device variants ("Core 510i" when
+        only Core 110f failed), so we synthesize this field from ground
+        truth instead.
+        """
+        failed = summary.get("failed_test_cases") or []
+        if not failed:
+            summary["retest_guidance"] = "No failures — no retest required."
+            return
+        case_names = [c.get("test_case_name") for c in failed if c.get("test_case_name")]
+        hardwares = sorted({
+            (c.get("affected_component") or "").strip()
+            for c in failed if (c.get("affected_component") or "").strip()
+        })
+        builds = (context.get("run_metadata") or {}).get("builds_under_test") or []
+        build_str = builds[-1] if builds else None
+
+        cases_frag = ", ".join(f"`{n}`" for n in case_names) or "the failing case"
+        hw_frag = f" on {', '.join(hardwares)}" if hardwares else ""
+        build_frag = f" against build {build_str}" if build_str else ""
+
+        summary["retest_guidance"] = (
+            f"Retest {cases_frag}{hw_frag}{build_frag} to confirm the failure "
+            f"before escalating. Sibling checkers that passed do not need retest."
+        )
+
+    @staticmethod
+    def _backfill_from_domain_context(failed_test_cases, f_by_case, context):
+        """Fill empty narrative fields from curated `_domain_context`.
+
+        Applied AFTER hallucinated cases are dropped, so any surviving
+        real case still has something meaningful in `interpretation`,
+        `root_cause_hypotheses`, `severity`, and `affected_component`.
+        """
+        for entry in failed_test_cases:
+            cid = entry.get("case_execution_id")
+            failures = f_by_case.get(cid) or []
+            if not failures:
+                continue
+            # Union the domain contexts across this case's failed actions
+            dctx = None
+            for f in failures:
+                if f.get("_domain_context"):
+                    dctx = f["_domain_context"]
+                    break
+            if not dctx:
+                continue
+
+            # Severity — override "medium" default when curated typical_severity is stronger
+            typical = (dctx.get("typical_severity") or "").lower()
+            current = (entry.get("severity") or "medium").lower()
+            rank = {"low": 1, "medium": 2, "high": 3, "critical": 4}
+            if typical and rank.get(typical, 0) > rank.get(current, 0):
+                entry["severity"] = typical
+
+            # affected_component — always ground to the real Hardware field.
+            # The LLM cannot be trusted to name the specific device variant.
+            hardware = (failures[0].get("hardware") or "").strip()
+            if hardware:
+                entry["affected_component"] = hardware
+            elif not (entry.get("affected_component") or "").strip():
+                hint = (dctx.get("affected_component_hint") or "").strip()
+                entry["affected_component"] = hint or None
+
+            # interpretation — render the family's short `verdict` from
+            # the YAML with run-specific placeholders. The longer YAML
+            # fields (purpose / actual_false_means / common_causes) are
+            # reference material for the LLM's INTERNAL reasoning only;
+            # they must not leak into the user-facing report.
+            verdict_tpl = (dctx.get("verdict") or "").strip()
+            n_actions = len(failures)
+            hw = (failures[0].get("hardware") or "").strip() or "the target device"
+            remark = (failures[0].get("remarks") or "").strip() or "n/a"
+            builds = (context.get("run_metadata") or {}).get("builds_under_test") or []
+            build_str = builds[-1] if builds else "the tested build"
+            if verdict_tpl:
+                collapsed = " ".join(verdict_tpl.split())
+                entry["interpretation"] = collapsed.format(
+                    hardware=hw, build=build_str,
+                    remark=remark, n_actions=n_actions,
+                )
+
+            # root_cause_hypotheses — the YAML common_causes list is the
+            # authoritative hypothesis set for this failure family. Do NOT
+            # merge LLM-added hypotheses: they consistently paraphrase the
+            # seeded entries and inflate the hypothesis count. Evidence is
+            # kept to the run-observed facts only (no YAML tutorial text).
+            common_causes = list(dctx.get("common_causes") or [])[:3]
+            if common_causes:
+                likelihoods = ["high", "medium", "low"]
+                seeded = []
+                for i, cause in enumerate(common_causes):
+                    label, _sep, _tail = cause.partition("\u2014")
+                    if not _sep:
+                        label, _sep, _tail = cause.partition(". ")
+                    label = label.strip().rstrip(".").strip()
+                    evidence = (
+                        f"observed remark: \"{remark}\"; "
+                        f"{n_actions} action retries on {hw}"
+                    )
+                    seeded.append({
+                        "hypothesis": label,
+                        "likelihood": likelihoods[min(i, len(likelihoods) - 1)],
+                        "evidence": evidence,
+                    })
+                entry["root_cause_hypotheses"] = seeded
 
     @staticmethod
     def _build_executive_summary(summary, context, total_passed, total_cases, failing_case_count):
         """Compose a factually-grounded 1-2 sentence executive summary."""
         rm = context.get("run_metadata") or {}
         builds = rm.get("builds_under_test") or []
-        build_str = ", ".join(builds) if builds else "the tested build"
+        build_str = " → ".join(builds) if len(builds) >= 2 else (builds[0] if builds else "the tested build")
         duration = rm.get("duration") or ""
         duration_frag = f" over {duration}" if duration else ""
 
@@ -389,6 +556,9 @@ class QsysAnalyzer:
         print("\n  Pre-processing data...")
         context = build_analysis_context(execution_data)
         print(f"  Extracted {context['total_failures']} failure(s) from {context['total_actions']} action(s)")
+        matched = sum(1 for f in context.get("failures", []) if f.get("_domain_context"))
+        if matched:
+            print(f"  Domain context attached to {matched}/{context['total_failures']} failure(s)")
 
         if context["total_failures"] == 0:
             print("  All actions passed. No analysis needed.")

@@ -8,6 +8,8 @@ data so the LLM receives structured context rather than raw rows.
 import re
 from collections import defaultdict
 
+from qsys_analyzer.knowledge import match_family, match_remark
+
 
 def parse_expected_value(expected_str):
     """
@@ -207,6 +209,21 @@ def extract_failures(actions, tabs=None, test_cases=None, test_plans=None):
                 failure["deviation"] = round(actual["value"] - expected["value"], 4)
                 failure["deviation_type"] = "value_mismatch"
 
+        # Attach curated domain knowledge (checker family + remark meaning)
+        # so every downstream LLM agent gets consistent factual grounding.
+        dctx = {}
+        fam = match_family(case.get("TestCaseName"))
+        if fam:
+            dctx.update(fam)
+        rmk = match_remark(action.get("Remarks", ""))
+        if rmk:
+            dctx["remark_meaning"] = rmk.get("meaning")
+            if rmk.get("rules_out"):
+                dctx["remark_rules_out"] = rmk.get("rules_out")
+            dctx["remark_matched_pattern"] = rmk.get("matched_pattern")
+        if dctx:
+            failure["_domain_context"] = dctx
+
         failures.append(failure)
 
     return failures
@@ -380,7 +397,10 @@ def build_analysis_context(execution_data):
         except Exception:
             duration_seconds = None
 
-    builds = sorted({(tp.get("Build") or "").strip() for tp in test_plans if tp.get("Build")})
+    # Sort builds in upgrade direction (before → after) using trailing
+    # numeric segments so "RC/10.5.2608.9" precedes "RC/10.5.2608.10".
+    build_set = {(tp.get("Build") or "").strip() for tp in test_plans if tp.get("Build")}
+    builds = sorted(build_set, key=lambda b: tuple(int(x) for x in re.findall(r"\d+", b)))
 
     run_metadata = {
         "exec_id": execution_data.get("exec_id"),

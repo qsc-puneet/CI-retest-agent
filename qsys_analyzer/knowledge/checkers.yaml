@@ -1,0 +1,283 @@
+# Qsys checker knowledge base — Phase 1 (6 families + 5 remark patterns).
+#
+# Coverage: ci_smoke_rc.xml + ci_smoke_develop.xml, ~124 of ~250 test cases.
+# When a failure's test case name matches one of the `families` globs, the
+# entry is attached to the failure as `_domain_context` and shown to every
+# LLM agent for its INTERNAL reasoning only.
+#
+# WHAT LANDS IN THE FINAL REPORT: only the family's short `verdict` string
+# (with {hardware}, {build}, {remark}, {n_actions} placeholders). The
+# longer `purpose`, `what_actual_false_means`, `common_causes` fields are
+# reference material for the LLM's analysis — they are NOT quoted in the
+# report.
+#
+# Editing rules:
+#   - `match` uses fnmatch glob patterns (case-insensitive).
+#     First match wins, so put the more specific family higher.
+#   - `verdict` MUST be 1-2 sentences, factual, no tutorial.
+#   - `affected_component_hint` steers the LLM away from generic team
+#     labels like "Core control team".
+#   - `typical_severity` is a suggestion; the LLM/deterministic layer
+#     still picks the final severity.
+
+families:
+
+  - name: Core-Crash_Checker
+    match:
+      - "*_Core-Crash_Checker*"
+    verdict: >
+      {hardware} reported a non-zero crash count on build {build}
+      across {n_actions} action retries with the remark "{remark}".
+      The Core software crashed at least once during the run; pull
+      the crash log from {hardware} to identify which subsystem crashed.
+    purpose: >
+      External script that reads the Q-Sys Core's crash logs for the build
+      currently under test and returns the number of crashes recorded
+      during the run. The action passes only when the script returns "0"
+      (zero crashes). A non-zero return means the Core software actually
+      crashed one or more times on that build. The checker itself is a
+      trusted sentinel — it does not perform its own validation logic, it
+      just surfaces what the Core's own crash log already contains.
+    what_actual_false_means: >
+      The External Script Action returned ActualValues=False with the
+      remark "0 is not found in the script response". This almost always
+      means the script reported a NON-ZERO crash count — i.e. the Core
+      software crashed during the run on the build under test. In roughly
+      99% of failures this is a real Core-side crash; the only common
+      false-positive path is a transient network issue that prevented the
+      script from talking to the Core (in that case the remark usually
+      shows Timeout / connection refused instead of the "0 is not found"
+      wording).
+    common_causes:
+      - "Core software crashed one or more times on the build under test — this is the default explanation whenever the remark reads '0 is not found in the script response'; the crash log has to be pulled from the Core to identify which subsystem crashed."
+      - "Transient network issue between the checker script and the Core during the polling window — only ~1% of failures; distinguishable because the remark shows Timeout / connection refused / unreachable instead of '0 is not found in the script response'."
+    affected_component_hint: >
+      The specific Q-Sys Core hardware variant named in the test case name
+      or its Hardware/Inventory field — e.g. "Core 110f", "Core Nano",
+      "Core 510i", "Core 8flex", "Core X10". NEVER label as "Core control
+      team" or any organizational owner; the affected component is the
+      physical Core device and the software running on it.
+    typical_severity: critical
+
+  - name: Firmware_Upgrade
+    match:
+      - "*[Ff]irmware*[Uu]pgrade*"
+      - "*firmware-upgrade*"
+      - "*firmware_upgrade*"
+    verdict: >
+      Firmware upgrade to build {build} failed on {hardware} across
+      {n_actions} action(s) with the remark "{remark}". Either the
+      upgrade action itself failed or the follow-up status verification
+      did not confirm the new version.
+    purpose: >
+      Pushes a target firmware build to a Core, peripheral, or NV device
+      and verifies that the upgrade completes and the device comes back
+      online at the new version. Usually consists of an "upgrade" control
+      action followed by a status-check verification.
+    what_actual_false_means: >
+      The upgrade action or its follow-up status verification returned a
+      failure. Depending on which sub-step failed:
+        - upgrade action failed => the device rejected the payload or the
+          upload timed out;
+        - status verification failed => the device did not report the
+          expected new firmware version, or did not come back online at all.
+      Read the remark and the ActionName to determine which sub-step.
+    common_causes:
+      - "Corrupt or unsigned firmware image in the build under test."
+      - "Device did not reboot cleanly after the upgrade — usually pairs with a subsequent status_check failure on the same device."
+      - "Network path to the device dropped during upload — remark will typically mention Timeout or connection refused."
+      - "Upgrade succeeded but reported version string does not match expected — script/build version-string mismatch after packaging change."
+    affected_component_hint: >
+      The specific device being upgraded (Core variant, Peripheral, NV
+      encoder/decoder), identified from the test case name and the Hardware
+      field. Not a team.
+    typical_severity: critical
+
+  - name: Core_or_Peripheral_Status_Check
+    match:
+      - "*statuscheck*"
+      - "*status_check*"
+      - "*status check*"
+      - "*Core-status_check*"
+      - "*Peripheral-statuscheck*"
+    verdict: >
+      Status check on {hardware} failed on build {build} across
+      {n_actions} action(s) with the remark "{remark}". The device did
+      not report the expected healthy state.
+    purpose: >
+      Verifies that a Core or attached peripheral is online, reachable, and
+      reports a healthy state (running expected design, correct firmware
+      version, LEDs/GPIOs in the expected state, peripherals discovered).
+      Runs before and/or after firmware upgrades to bracket the upgrade
+      window.
+    what_actual_false_means: >
+      The status query returned a value that does not match the expected
+      healthy state. Typical shapes:
+        - device unreachable => remark mentions Timeout / connection refused;
+        - wrong firmware version reported => actual/expected show version strings;
+        - peripheral count mismatch => actual shows fewer peripherals than expected.
+    common_causes:
+      - "Device did not come back cleanly after a preceding upgrade — inspect the immediately-preceding upgrade action in the same sequence."
+      - "Design not loaded / Core in an unexpected run state."
+      - "Physical peripheral disconnected (pre-existing lab-side issue, not build regression)."
+      - "Network reachability issue during the status window."
+    affected_component_hint: >
+      The specific Core or peripheral being polled (from test case name and
+      Hardware field). If a status_check paired with an upgrade_action just
+      before it also failed, the two are almost certainly one issue.
+    typical_severity: high
+
+  - name: Amplifier_Control
+    match:
+      - "VAQ*Amplifier*"
+    verdict: >
+      Amplifier control check on {hardware} failed on build {build}
+      across {n_actions} action(s) with the remark "{remark}". The
+      commanded state was not accepted or the measured output did not
+      match the expected value.
+    purpose: >
+      Exercises amplifier control-plane operations: standby enable/disable,
+      mute-all enable/disable/pre-check, per-channel audio routing, and GPIO.
+      Verifies that control commands actually apply (via output measurement
+      or peripheral state readback) rather than being silently ignored.
+    what_actual_false_means: >
+      For a control action failure: the amplifier did not accept or did not
+      apply the commanded state (standby toggle, mute toggle). For a
+      verification failure: the measured output level or reported state
+      does not match the expected value after the commanded change.
+      Look at ActionName + expected/actual to decide which.
+    common_causes:
+      - "Amplifier control-plane regression — a firmware change altered the state model or command endpoint."
+      - "Amplifier not commissioned into the design under test (pre-existing lab config drift)."
+      - "One channel affected while the sibling channel passes — points at per-channel routing/mute state, not the whole amp."
+      - "Amp in a stuck state left over from a previous test — the Mute-All pre-check often catches this."
+    affected_component_hint: >
+      The specific amplifier module in the design (identified from Hardware /
+      Inventory / design name), and the specific channel or state control
+      being toggled. Not a team.
+    typical_severity: high
+
+  - name: Network_Stream
+    match:
+      - "VAQ*_Sanity_QLAN_*"
+      - "VAQ*_WAN Tx*"
+      - "VAQ*_AES67 TX*"
+      - "VAQ*_SoftDante*"
+      - "VAQ*_System Link*"
+      - "*_QLAN_stream-check*"
+      - "*_AES_stream-check*"
+      - "*_MS_stream-check*"
+      - "*_SL_stream-check*"
+      - "*_Softdante_stream-check*"
+      - "*_WAN_stream-check*"
+    verdict: >
+      Network stream check on {hardware} failed on build {build} across
+      {n_actions} action(s) with the remark "{remark}". The stream was
+      either not routed or the measured RX level is outside the
+      expected window.
+    purpose: >
+      Verifies that the Core is producing or consuming a network audio
+      stream on the named transport (Q-LAN, WAN, AES67, SoftDante /
+      Multicast, System Link). Typical structure: enable/route the stream,
+      then measure the RX peak level at a downstream point and check it
+      falls within Upper/Lower dB bounds.
+    what_actual_false_means: >
+      For a control action failure: the stream did not start / route as
+      commanded. For a verification failure: the measured RX level is
+      outside the expected dB window — actual around -96 dB means no
+      signal reached the receiver; actual close-to-bounds means level
+      offset (gain or calibration).
+    common_causes:
+      - "Stream not routed / mute stuck upstream — precondition action failed and cascaded into the level verification."
+      - "Network transport regression on the specific protocol (e.g. AES67 broken but QLAN fine points at the AES67 stack)."
+      - "Receiver not subscribed / peripheral offline."
+      - "Gain calibration drift — actual within a few dB of bounds, not a total loss of signal."
+    affected_component_hint: >
+      The specific transport (Q-LAN / WAN / AES67 / SoftDante / System Link)
+      and the specific stream/channel endpoint. If -96 dB, call out
+      "no signal reached RX"; if a few dB off bounds, call out
+      "level within tolerance range but outside verification bounds".
+    typical_severity: high
+
+  - name: AV_Bridging_USB
+    match:
+      - "CI_*AV Bridging - *"
+    verdict: >
+      USB / AV bridging endpoint on {hardware} failed on build {build}
+      across {n_actions} action(s) with the remark "{remark}". The
+      endpoint did not report the expected connected/active state.
+    purpose: >
+      Verifies USB audio/video bridging on Core / IOUSB / TSC hardware:
+      Sound Card / Speakerphone endpoint presence, Active/Connected state,
+      Video bridging (input active/connected, USB active, bridge name,
+      QR-code visual confirmation), and HTTP client status.
+    what_actual_false_means: >
+      The named endpoint or state readback did not report the expected
+      value. Common shapes:
+        - "not connected" => USB device not enumerated by the host;
+        - "not active" => endpoint enumerated but not streaming;
+        - bridge name mismatch => the USB device advertised a different
+          name than expected (firmware / config change).
+    common_causes:
+      - "USB device not enumerated — physical disconnect or driver regression."
+      - "AV bridging service in the Core design did not start or lost its endpoint."
+      - "One endpoint (Sound Card OR Speakerphone) affected while sibling passes — points at that specific USB profile."
+      - "Bridge name string changed after a firmware update — cosmetic if only the name check fails."
+    affected_component_hint: >
+      The specific USB endpoint being checked (Sound Card In/Out,
+      Speakerphone In/Out, Video bridging Input/USB) on the specific host
+      (Core / IOUSB / TSC), not the AV bridging feature as a whole.
+    typical_severity: medium
+
+remark_patterns:
+
+  - pattern: "is not found in the script response"
+    is_regex: false
+    meaning: >
+      The External Script Action expected to see the token "0" (zero
+      crashes) in the response payload from the Core's crash-log script
+      and did not find it. In the Core-Crash_Checker family this means the
+      script returned a NON-ZERO crash count — i.e. the Core software
+      actually crashed on the build under test. This remark reflects a
+      trusted crash-log read, not a network or protocol failure: a network
+      failure produces Timeout / connection refused / unreachable instead.
+      When the remark appears twice in a row on consecutive retries with
+      identical wording, it is NOT a transient glitch — the crash log
+      really contains a non-zero counter.
+    rules_out: "transient network glitch (identical retries with this exact wording indicate a persistent non-zero crash count on the Core, not a flaky connection)"
+
+  - pattern: "Timeout"
+    is_regex: false
+    meaning: >
+      The action or verification did not receive a response from the target
+      device within the configured timeout window. Points at the network
+      path or the device being unresponsive, not at an incorrect value.
+    rules_out: "value-mismatch failures (a timeout is a no-response failure, so any downstream verification comparing values is moot)"
+
+  - pattern: "(connection refused|unreachable|no route|host is down)"
+    is_regex: true
+    meaning: >
+      The action could not open a network connection to the target device.
+      Distinct from Timeout — the target actively refused the connection or
+      the network layer reported it unreachable. Usually indicates the
+      device is powered off, its service is stopped, or its IP has changed.
+    rules_out: "software logic regressions (the code path never reached the device)"
+
+  - pattern: "not connected"
+    is_regex: false
+    meaning: >
+      The device / endpoint reports itself as not connected. For USB
+      bridging endpoints this means USB enumeration did not complete. For
+      network streams this means the receiver has not subscribed to the
+      producer.
+    rules_out: "value-precision issues (the endpoint isn't live at all)"
+
+  - pattern: "^-9[0-9]\\.[0-9]+$|-96 dB"
+    is_regex: true
+    meaning: >
+      Measured peak level of ~-96 dB indicates the noise floor / no signal
+      present. This is the "no signal" pattern — the level verification
+      failed because nothing is arriving at the RX point, not because the
+      level is a few dB off bounds. Investigate the upstream routing
+      action, not the verification's calibration.
+    rules_out: "gain-calibration drift (a calibration issue produces actuals a few dB from the bounds, not -96 dB)"

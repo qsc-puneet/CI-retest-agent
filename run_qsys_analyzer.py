@@ -31,17 +31,21 @@ def main():
     failed_only = "--all" not in sys.argv
 
     # Validate env
-    required_vars = ["MSSQL_HOST", "MSSQL_USER", "MSSQL_PASSWORD", "OPENAI_API_KEY"]
+    required_vars = ["MSSQL_HOST", "MSSQL_USER", "MSSQL_PASSWORD", "OPENAI_API_KEY", "LLM_MODEL"]
     missing = [v for v in required_vars if not os.environ.get(v)]
     if missing:
         print(f"ERROR: Missing environment variables: {', '.join(missing)}")
         print("Add them to .env or export them.")
         sys.exit(1)
 
-    model = os.environ.get("LLM_MODEL", "qwen3:8b")
+    model = os.environ["LLM_MODEL"]
     base_url = os.environ.get("OPENAI_BASE_URL") or None
     api_key = os.environ.get("OPENAI_API_KEY")
-    output_path = os.environ.get("OUTPUT_JSON_PATH", "qsys_analysis_output.json")
+    # Model family slug (e.g. "llama3.1", "qwen2.5") tags outputs so old and new
+    # model reports can coexist for comparison
+    model_slug = model.split(":")[0].replace("/", "-")
+    default_json = f"qsys_analysis_output_{model_slug}.json"
+    output_path = os.environ.get("OUTPUT_JSON_PATH", default_json)
     report_path = os.environ.get("OUTPUT_REPORT_PATH") or (
         os.path.splitext(output_path)[0] + ".md"
     )

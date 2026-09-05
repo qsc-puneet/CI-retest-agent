@@ -95,7 +95,7 @@ class BaseAgent:
     role = "base"
     system_prompt = ""
 
-    def __init__(self, client, model="qwen3:8b"):
+    def __init__(self, client, model):
         self.client = client
         self.model = model
 
@@ -109,13 +109,50 @@ class BaseAgent:
         return resp.choices[0].message.content
 
     def _parse_json(self, raw):
-        """Extract JSON from LLM response."""
-        # Find the outermost JSON object
-        start = raw.find("{")
-        end = raw.rfind("}") + 1
-        if start == -1 or end == 0:
+        """Extract the first balanced JSON object from an LLM response.
+
+        Handles code fences, preamble/postamble prose, and multiple JSON
+        blocks by scanning for the first `{...}` with matched braces,
+        ignoring braces inside string literals.
+        """
+        text = raw.strip()
+        # Strip common code-fence wrappers
+        if text.startswith("```"):
+            text = text.split("\n", 1)[-1]
+            if text.endswith("```"):
+                text = text.rsplit("```", 1)[0]
+
+        start = text.find("{")
+        if start == -1:
             raise ValueError(f"No JSON found in {self.name} response")
-        return json.loads(raw[start:end])
+
+        depth = 0
+        in_string = False
+        escape = False
+        for i in range(start, len(text)):
+            ch = text[i]
+            if in_string:
+                if escape:
+                    escape = False
+                elif ch == "\\":
+                    escape = True
+                elif ch == '"':
+                    in_string = False
+            else:
+                if ch == '"':
+                    in_string = True
+                elif ch == "{":
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0:
+                        return json.loads(text[start:i + 1])
+
+        # Fallback: try the naive extraction if brace matching failed
+        end = text.rfind("}") + 1
+        if end > start:
+            return json.loads(text[start:end])
+        raise ValueError(f"No balanced JSON object in {self.name} response")
 
 
 # ── Phase 1 Agents ──────────────────────────────────────────────────────────
@@ -140,6 +177,10 @@ class FailureClassifierAgent(BaseAgent):
         - channel_specific: one channel fails while other passes
         - frequency_dependent: fails at certain frequencies only
         - unknown: cannot determine
+
+        If a failure carries a `_domain_context` block, use its
+        `checker_family` and `actual_false_means` to pick the category —
+        do not override curated knowledge with a guess.
 
         Classify each failure. Respond ONLY with the JSON object.
     """)
@@ -174,6 +215,10 @@ class PatternAnalystAgent(BaseAgent):
         Consider the test sequences: actions before a verification are
         its preconditions. If a precondition action failed, downstream
         verifications are expected to fail.
+
+        When a failure carries a `_domain_context` block, its
+        `common_causes` list is the authoritative candidate set for
+        root causes — pick from it rather than inventing new causes.
 
         Respond ONLY with the JSON object.
     """)
@@ -211,6 +256,10 @@ class ImpactAssessorAgent(BaseAgent):
         - high: significant level deviation (>6 dB from bounds)
         - medium: moderate deviation (2-6 dB), single channel affected
         - low: marginal fail (<2 dB from bounds), likely measurement noise
+
+        When a failure carries a `_domain_context` block, use its
+        `typical_severity` as the default and only override if the
+        specific evidence in this run justifies a different severity.
 
         Respond ONLY with the JSON object.
     """)
@@ -327,6 +376,28 @@ class SummaryDirectorAgent(BaseAgent):
              - Cap at 0.7 when total_failures < 5.
              - Cap at 0.5 when total_failures < 3 and you had to rely
                on a single hypothesis.
+
+        9. `_domain_context` — when a failed action carries a
+           `_domain_context` block, treat it as CURATED GROUND TRUTH
+           authored by the domain team:
+             - `purpose` tells you what the checker actually verifies —
+               use it verbatim material when writing `interpretation`.
+             - `actual_false_means` explains what the observed
+               False/failure signifies at the device level — do not
+               contradict it.
+             - `common_causes` is the candidate set for
+               `root_cause_hypotheses`. Pick 1-3 that best fit the
+               specific evidence in this run; do NOT invent new causes
+               that contradict them.
+             - `affected_component_hint` describes what `affected_component`
+               must name (a device / subsystem / script — NEVER a team,
+               org, or role such as "control team").
+             - `typical_severity` is the default; only override if the
+               concrete evidence justifies a different severity.
+             - `remark_meaning` explains what the raw remark string
+               indicates; use it to explain the failure in plain English.
+             - `remark_rules_out` names failure modes the remark
+               eliminates — do not propose a hypothesis it rules out.
 
         Respond ONLY with the JSON object matching the schema exactly.
         Never invent fields. Do not include commentary outside JSON.

@@ -40,7 +40,14 @@ def render_markdown_report(summary, exec_id=None):
     md.append("|---|---|")
     md.append(f"| Test run name | {_md_escape(rm.get('test_run_name'))} |")
     builds = rm.get("builds_under_test") or []
-    md.append(f"| Build(s) under test | {_md_escape(', '.join(builds) if builds else rm.get('build_under_test'))} |")
+    if len(builds) >= 2:
+        # 2+ builds = firmware-upgrade run: show as before → after
+        builds_cell = " → ".join(builds)
+    elif builds:
+        builds_cell = builds[0]
+    else:
+        builds_cell = rm.get("build_under_test")
+    md.append(f"| Build(s) under test | {_md_escape(builds_cell)} |")
     md.append(f"| Start | {_md_escape(rm.get('start_time'))} |")
     md.append(f"| End | {_md_escape(rm.get('end_time'))} |")
     duration_str = rm.get("duration") or _fmt_duration(rm.get("duration_seconds"))
