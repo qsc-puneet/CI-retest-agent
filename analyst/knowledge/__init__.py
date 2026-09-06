@@ -1,6 +1,6 @@
 """Loads the checker knowledge base and provides pattern matching helpers.
 
-The knowledge base lives at `qsys_analyzer/knowledge/checkers.yaml`. It is
+The knowledge base lives at `analyst/knowledge/checkers.yaml`. It is
 loaded once at import time and consulted by `tools.build_analysis_context`
 to attach a `_domain_context` block to every failure. That block is then
 visible to every LLM agent in the pipeline.
@@ -82,7 +82,7 @@ def match_remark(remark: str | None) -> dict | None:
 
 
 def knowledge_stats() -> dict:
-    """Diagnostics for run_qsys_analyzer.py to print at startup."""
+    """Diagnostics for test_analyzer.py to print at startup."""
     return {
         "families": len(_KB["families"]),
         "remark_patterns": len(_KB["remark_patterns"]),

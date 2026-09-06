@@ -6,12 +6,12 @@ __pycache__/
 .vscode/
 
 # --- Level B: v1 retest implementation (kept locally, excluded from source control) ---
-qsys_analyzer/retest_orchestrator.py
-qsys_analyzer/config_mutator.py
+analyst/retest_orchestrator.py
+analyst/config_mutator.py
 run_retest_planner.py
 
 # --- Level B: device checker (unrelated tool) ---
-qsys_analyzer/device_checker.py
+analyst/device_checker.py
 run_device_checker.py
 
 # --- Level B: scratch / manual dump tools ---

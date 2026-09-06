@@ -2,9 +2,9 @@
 Qsys Test Execution Analyzer — Entry Point
 
 Usage:
-    python run_qsys_analyzer.py <ExecID>
-    python run_qsys_analyzer.py 287
-    python run_qsys_analyzer.py 287 --all   (analyze all test cases, not just failures)
+    python test_analyzer.py <ExecID>
+    python test_analyzer.py 287
+    python test_analyzer.py 287 --all   (analyze all test cases, not just failures)
 """
 
 import json
@@ -22,7 +22,7 @@ def main():
 
     # Parse args
     if len(sys.argv) < 2:
-        print("Usage: python run_qsys_analyzer.py <ExecID> [--all]")
+        print("Usage: python test_analyzer.py <ExecID> [--all]")
         print("  ExecID: The execution ID to analyze")
         print("  --all:  Analyze all test cases (default: only failed)")
         sys.exit(1)
@@ -50,7 +50,7 @@ def main():
         os.path.splitext(output_path)[0] + ".md"
     )
     # PIPELINE_MODE: 'fast' (default) skips the critic/revise pass; 'full' runs it.
-    pipeline_mode = os.environ.get("PIPELINE_MODE", "fast").lower()
+    pipeline_mode = os.environ.get("PIPELINE_MODE", "full").lower()
     # Per-request timeout in seconds; slow 7B models on remote hosts can stall.
     try:
         llm_timeout = float(os.environ.get("LLM_TIMEOUT", "600"))
@@ -62,8 +62,8 @@ def main():
     client = OpenAI(api_key=api_key, base_url=base_url, timeout=llm_timeout)
 
     # Run analysis
-    from qsys_analyzer.orchestrator import QsysAnalyzer
-    from qsys_analyzer.report import render_markdown_report
+    from analyst.orchestrator import QsysAnalyzer
+    from analyst.report import render_markdown_report
     analyzer = QsysAnalyzer(client=client, model=model, enable_revise=(pipeline_mode == "full"))
     summary = analyzer.run(exec_id, failed_only=failed_only)
 

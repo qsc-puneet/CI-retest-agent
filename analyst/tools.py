@@ -8,7 +8,7 @@ data so the LLM receives structured context rather than raw rows.
 import re
 from collections import defaultdict
 
-from qsys_analyzer.knowledge import match_family, match_remark
+from .knowledge import match_family, match_remark
 
 
 def parse_expected_value(expected_str):
