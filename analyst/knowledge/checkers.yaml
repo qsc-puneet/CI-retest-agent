@@ -25,6 +25,11 @@ families:
   - name: Core-Crash_Checker
     match:
       - "*_Core-Crash_Checker*"
+    retest_useful: false
+    manual_action: >
+      Pull the crash log from {hardware} on build {build} and verify the crash presence. Retesting the crash
+      checker adds no signal — the crash is already recorded in the
+      Core's log and re-running the sentinel will just re-read it.
     verdict: >
       {hardware} reported a non-zero crash count on build {build}
       across {n_actions} action retries with the remark "{remark}".

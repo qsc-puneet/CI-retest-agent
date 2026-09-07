@@ -49,6 +49,8 @@ def match_family(test_case_name: str | None) -> dict | None:
                 return {
                     "checker_family": fam.get("name"),
                     "verdict": fam.get("verdict"),
+                    "retest_useful": fam.get("retest_useful", True),
+                    "manual_action": fam.get("manual_action"),
                     "purpose": fam.get("purpose"),
                     "actual_false_means": fam.get("what_actual_false_means"),
                     "common_causes": fam.get("common_causes", []),

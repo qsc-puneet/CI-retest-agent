@@ -287,10 +287,19 @@ class QsysAnalyzer:
         # style labels the LLM invents and re-tie the owner to real hardware.
         self._sanitize_recommended_actions(summary, context)
 
+        # Replace retest-style actions with manual-collection actions for
+        # families flagged `retest_useful: false` in the YAML.
+        self._override_actions_for_manual_only(summary)
+
         # Rebuild retest_guidance deterministically so it references only
         # real failing cases + real hardware (LLM tends to name the wrong
         # device variant here).
         self._rewrite_retest_guidance(summary, context)
+
+        # Drop internal scratch fields before the summary is serialized.
+        for c in summary.get("failed_test_cases") or []:
+            c.pop("_retest_useful", None)
+            c.pop("_manual_action", None)
 
         return summary
 
@@ -318,33 +327,85 @@ class QsysAnalyzer:
                     a["owner"] = "firmware/design owner"
 
     @staticmethod
+    def _override_actions_for_manual_only(summary):
+        """Rewrite recommended_actions so retest-useless failures ask for
+        manual log collection instead of another retest run."""
+        failed = summary.get("failed_test_cases") or []
+        manual = [c for c in failed if c.get("_retest_useful") is False]
+        if not manual:
+            return
+        actions = []
+        for c in manual:
+            hw = (c.get("affected_component") or "the device").strip()
+            manual_action = (c.get("_manual_action") or "").strip()
+            action_text = manual_action or (
+                f"Pull the crash log from {hw} and share it with the "
+                f"{hw} firmware/design owner. Do not retest — a rerun "
+                f"cannot change the verdict."
+            )
+            actions.append({
+                "priority": "immediate",
+                "action": action_text,
+                "owner": f"{hw} firmware/design owner",
+            })
+        # Keep any LLM-produced actions that DON'T match a manual-only case
+        # (e.g. actions for retestable failures in the same run).
+        retestable_names = {
+            c.get("test_case_name") for c in failed
+            if c.get("_retest_useful") is not False
+        }
+        existing = summary.get("recommended_actions") or []
+        if retestable_names:
+            for a in existing:
+                text = (a.get("action") or "").lower()
+                if any(name and name.lower() in text for name in retestable_names):
+                    actions.append(a)
+        summary["recommended_actions"] = actions
+
+    @staticmethod
     def _rewrite_retest_guidance(summary, context):
         """Compose retest_guidance from the real failing cases + hardware.
 
-        The LLM often names unrelated device variants ("Core 510i" when
-        only Core 110f failed), so we synthesize this field from ground
-        truth instead.
+        Families flagged `retest_useful: false` (e.g. Core-Crash_Checker)
+        get a "do not retest — collect logs manually" directive instead,
+        because rerunning them cannot change the verdict.
         """
         failed = summary.get("failed_test_cases") or []
         if not failed:
             summary["retest_guidance"] = "No failures — no retest required."
             return
-        case_names = [c.get("test_case_name") for c in failed if c.get("test_case_name")]
-        hardwares = sorted({
-            (c.get("affected_component") or "").strip()
-            for c in failed if (c.get("affected_component") or "").strip()
-        })
-        builds = (context.get("run_metadata") or {}).get("builds_under_test") or []
-        build_str = builds[-1] if builds else None
 
-        cases_frag = ", ".join(f"`{n}`" for n in case_names) or "the failing case"
-        hw_frag = f" on {', '.join(hardwares)}" if hardwares else ""
-        build_frag = f" against build {build_str}" if build_str else ""
+        manual_only = [c for c in failed if c.get("_retest_useful") is False]
+        retestable = [c for c in failed if c.get("_retest_useful") is not False]
 
-        summary["retest_guidance"] = (
-            f"Retest {cases_frag}{hw_frag}{build_frag} to confirm the failure "
-            f"before escalating. Sibling checkers that passed do not need retest."
-        )
+        parts = []
+        for c in manual_only:
+            action = (c.get("_manual_action") or "").strip()
+            if action:
+                parts.append(f"`{c.get('test_case_name')}`: {action}")
+            else:
+                parts.append(
+                    f"`{c.get('test_case_name')}`: do not retest; "
+                    f"collect logs from {c.get('affected_component') or 'the device'} manually."
+                )
+
+        if retestable:
+            names = ", ".join(f"`{c.get('test_case_name')}`" for c in retestable if c.get("test_case_name"))
+            hardwares = sorted({
+                (c.get("affected_component") or "").strip()
+                for c in retestable if (c.get("affected_component") or "").strip()
+            })
+            builds = (context.get("run_metadata") or {}).get("builds_under_test") or []
+            build_str = builds[-1] if builds else None
+            hw_frag = f" on {', '.join(hardwares)}" if hardwares else ""
+            build_frag = f" against build {build_str}" if build_str else ""
+            parts.append(
+                f"Retest {names}{hw_frag}{build_frag} to confirm the failure "
+                f"before escalating."
+            )
+
+        parts.append("Sibling checkers that passed do not need retest.")
+        summary["retest_guidance"] = " ".join(parts)
 
     @staticmethod
     def _backfill_from_domain_context(failed_test_cases, f_by_case, context):
@@ -426,6 +487,18 @@ class QsysAnalyzer:
                         "evidence": evidence,
                     })
                 entry["root_cause_hypotheses"] = seeded
+
+            # Stash retest guidance flags for downstream deterministic steps.
+            entry["_retest_useful"] = bool(dctx.get("retest_useful", True))
+            manual_tpl = (dctx.get("manual_action") or "").strip()
+            if manual_tpl:
+                collapsed = " ".join(manual_tpl.split())
+                entry["_manual_action"] = collapsed.format(
+                    hardware=hw, build=build_str,
+                    remark=remark, n_actions=n_actions,
+                )
+            else:
+                entry["_manual_action"] = None
 
     @staticmethod
     def _build_executive_summary(summary, context, total_passed, total_cases, failing_case_count):
